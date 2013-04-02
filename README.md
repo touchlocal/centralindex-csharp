@@ -13,7 +13,25 @@ The centralindex C# module allows developers to start using the [Central Index](
 
 ## Hello World
 
+A simple 'hello world' application might look something like this:
 
+```
+
+public class Runner {
+    
+    public static void Main()
+    {
+        
+        CentralIndex ci = new CentralIndex("<api goes here>",false);
+       
+        String str = ci.getEntity("379274402656256");
+                
+        Console.WriteLine(str);
+
+    } 
+}
+
+```
 
 
 ## Function reference
