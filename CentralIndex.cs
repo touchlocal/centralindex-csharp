@@ -1,3 +1,4 @@
+Starting Wolf using 'dev' configuration
 using System;
 using System.IO;
 using System.Net;
@@ -627,6 +628,23 @@ public class CentralIndex
     p.Add("language",language);
     p.Add("portal_name",portal_name);
     return doCurl("GET","/entity/add",p);
+  }
+
+
+  /**
+   * Provides a personalised URL to redirect a user to claim an entity in the Central Index
+   *
+   *  @param language - The language to use to render the add path e.g. en
+   *  @param portal_name - The name of the website that data is to be added on e.g. YourLocal
+   *  @param entity_id - The id of the index card that is being claimed e.g. 379236808425472
+   *  @return - the data from the api
+  */
+  public String getEntityClaim( String language, String portal_name, String entity_id) {
+    Hashtable p = new Hashtable();
+    p.Add("language",language);
+    p.Add("portal_name",portal_name);
+    p.Add("entity_id",entity_id);
+    return doCurl("GET","/entity/claim",p);
   }
 
 
@@ -2283,6 +2301,66 @@ public class CentralIndex
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
     return doCurl("GET","/publisher/byEntityId",p);
+  }
+
+
+  /**
+   * Update/Add a country
+   *
+   *  @param country_id
+   *  @param name
+   *  @param synonyms
+   *  @param continentName
+   *  @param continent
+   *  @param geonameId
+   *  @param dbpediaURL
+   *  @param freebaseURL
+   *  @param population
+   *  @param currencyCode
+   *  @param languages
+   *  @param areaInSqKm
+   *  @param capital
+   *  @param east
+   *  @param west
+   *  @param north
+   *  @param south
+   *  @param claimPrice
+   *  @return - the data from the api
+  */
+  public String postCountry( String country_id, String name, String synonyms, String continentName, String continent, String geonameId, String dbpediaURL, String freebaseURL, String population, String currencyCode, String languages, String areaInSqKm, String capital, String east, String west, String north, String south, String claimPrice) {
+    Hashtable p = new Hashtable();
+    p.Add("country_id",country_id);
+    p.Add("name",name);
+    p.Add("synonyms",synonyms);
+    p.Add("continentName",continentName);
+    p.Add("continent",continent);
+    p.Add("geonameId",geonameId);
+    p.Add("dbpediaURL",dbpediaURL);
+    p.Add("freebaseURL",freebaseURL);
+    p.Add("population",population);
+    p.Add("currencyCode",currencyCode);
+    p.Add("languages",languages);
+    p.Add("areaInSqKm",areaInSqKm);
+    p.Add("capital",capital);
+    p.Add("east",east);
+    p.Add("west",west);
+    p.Add("north",north);
+    p.Add("south",south);
+    p.Add("claimPrice",claimPrice);
+    return doCurl("POST","/country",p);
+  }
+
+
+  /**
+   * Fetching a country
+   *
+   *  @param country_id
+   *  @return - the data from the api
+  */
+  public String getCountry( String country_id) {
+    Hashtable p = new Hashtable();
+    p.Add("country_id",country_id);
+    return doCurl("GET","/country",p);
   }
 
 
