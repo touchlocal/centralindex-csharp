@@ -130,6 +130,19 @@ public class CentralIndex
 
 
   /**
+   * Uploads a JSON file of known format and bulk inserts into DB
+   *
+   *  @param data
+   *  @return - the data from the api
+  */
+  public String postEntityBulkJson( String data) {
+    Hashtable p = new Hashtable();
+    p.Add("data",data);
+    return doCurl("POST","/entity/bulk/json",p);
+  }
+
+
+  /**
    * Shows the current status of a bulk upload
    *
    *  @param upload_id
@@ -139,6 +152,19 @@ public class CentralIndex
     Hashtable p = new Hashtable();
     p.Add("upload_id",upload_id);
     return doCurl("GET","/entity/bulk/csv/status",p);
+  }
+
+
+  /**
+   * Shows the current status of a bulk JSON upload
+   *
+   *  @param upload_id
+   *  @return - the data from the api
+  */
+  public String getEntityBulkJsonStatus( String upload_id) {
+    Hashtable p = new Hashtable();
+    p.Add("upload_id",upload_id);
+    return doCurl("GET","/entity/bulk/json/status",p);
   }
 
 
@@ -590,10 +616,10 @@ public class CentralIndex
    *  @param email
    *  @param website
    *  @param category_id
-   *  @param category_name
+   *  @param category_type
    *  @return - the data from the api
   */
-  public String putBusiness( String name, String address1, String address2, String address3, String district, String town, String county, String postcode, String country, String latitude, String longitude, String timezone, String telephone_number, String email, String website, String category_id, String category_name) {
+  public String putBusiness( String name, String address1, String address2, String address3, String district, String town, String county, String postcode, String country, String latitude, String longitude, String timezone, String telephone_number, String email, String website, String category_id, String category_type) {
     Hashtable p = new Hashtable();
     p.Add("name",name);
     p.Add("address1",address1);
@@ -611,7 +637,7 @@ public class CentralIndex
     p.Add("email",email);
     p.Add("website",website);
     p.Add("category_id",category_id);
-    p.Add("category_name",category_name);
+    p.Add("category_type",category_type);
     return doCurl("PUT","/business",p);
   }
 
@@ -632,18 +658,18 @@ public class CentralIndex
 
 
   /**
-   * Provides a personalised URL to redirect a user to claim an entity in the Central Index
+   * Provides a personalised URL to redirect a user to claim an entity on Central Index
    *
-   *  @param language - The language to use to render the add path e.g. en
-   *  @param portal_name - The name of the website that data is to be added on e.g. YourLocal
-   *  @param entity_id - The id of the index card that is being claimed e.g. 379236808425472
+   *  @param entity_id - Entity ID to be claimed e.g. 380348266819584
+   *  @param language - The language to use to render the claim path e.g. en
+   *  @param portal_name - The name of the website that entity is being claimed on e.g. YourLocal
    *  @return - the data from the api
   */
-  public String getEntityClaim( String language, String portal_name, String entity_id) {
+  public String getEntityClaim( String entity_id, String language, String portal_name) {
     Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
     p.Add("language",language);
     p.Add("portal_name",portal_name);
-    p.Add("entity_id",entity_id);
     return doCurl("GET","/entity/claim",p);
   }
 
@@ -967,18 +993,31 @@ public class CentralIndex
 
 
   /**
+   * Returns the supplied wolf category object by fetching the supplied category_id from our categories object.
+   *
+   *  @param category_id
+   *  @return - the data from the api
+  */
+  public String getCategory( String category_id) {
+    Hashtable p = new Hashtable();
+    p.Add("category_id",category_id);
+    return doCurl("GET","/category",p);
+  }
+
+
+  /**
    * With a known entity id, an category object can be added.
    *
    *  @param entity_id
    *  @param category_id
-   *  @param category_name
+   *  @param category_type
    *  @return - the data from the api
   */
-  public String postEntityCategory( String entity_id, String category_id, String category_name) {
+  public String postEntityCategory( String entity_id, String category_id, String category_type) {
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
     p.Add("category_id",category_id);
-    p.Add("category_name",category_name);
+    p.Add("category_type",category_type);
     return doCurl("POST","/entity/category",p);
   }
 
@@ -1024,16 +1063,18 @@ public class CentralIndex
    *  @param company_name
    *  @param latitude
    *  @param longitude
+   *  @param country
    *  @param name_strictness
    *  @param location_strictness
    *  @return - the data from the api
   */
-  public String getMatchByphone( String phone, String company_name, String latitude, String longitude, String name_strictness, String location_strictness) {
+  public String getMatchByphone( String phone, String company_name, String latitude, String longitude, String country, String name_strictness, String location_strictness) {
     Hashtable p = new Hashtable();
     p.Add("phone",phone);
     p.Add("company_name",company_name);
     p.Add("latitude",latitude);
     p.Add("longitude",longitude);
+    p.Add("country",country);
     p.Add("name_strictness",name_strictness);
     p.Add("location_strictness",location_strictness);
     return doCurl("GET","/match/byphone",p);
@@ -2361,6 +2402,42 @@ public class CentralIndex
     Hashtable p = new Hashtable();
     p.Add("country_id",country_id);
     return doCurl("GET","/country",p);
+  }
+
+
+  /**
+   * For insance, reporting a phone number as wrong
+   *
+   *  @param entity_id - A valid entity_id e.g. 379236608286720
+   *  @param gen_id - The gen_id for the item being reported
+   *  @param signal_type - The signal that is to be reported e.g. wrong
+   *  @param data_type - The type of data being reported
+   *  @return - the data from the api
+  */
+  public String postSignal( String entity_id, String gen_id, String signal_type, String data_type) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("gen_id",gen_id);
+    p.Add("signal_type",signal_type);
+    p.Add("data_type",data_type);
+    return doCurl("POST","/signal",p);
+  }
+
+
+  /**
+   * Get the number of times an entity has been served out as an advert or on serps/bdp pages
+   *
+   *  @param entity_id - A valid entity_id e.g. 379236608286720
+   *  @param year - The year to report on
+   *  @param month - The month to report on
+   *  @return - the data from the api
+  */
+  public String getStatsEntityBy_date( String entity_id, String year, String month) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("year",year);
+    p.Add("month",month);
+    return doCurl("GET","/stats/entity/by_date",p);
   }
 
 
