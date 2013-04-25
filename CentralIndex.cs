@@ -554,14 +554,14 @@ public class CentralIndex
    * Supply an entity and an object within it (e.g. a phone number), and retrieve a URL that allows the user to report an issue with that object
    *
    *  @param entity_id - The unique Entity ID e.g. 379236608286720
-   *  @param gen_id - A Unique ID for the object you wish to report, E.g. Phone number e.g. 379236608299008
+   *  @param portal_name - The name of the portal that the user is coming from e.g. YourLocal
    *  @param language
    *  @return - the data from the api
   */
-  public String getEntityReport( String entity_id, String gen_id, String language) {
+  public String getEntityReport( String entity_id, String portal_name, String language) {
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
-    p.Add("gen_id",gen_id);
+    p.Add("portal_name",portal_name);
     p.Add("language",language);
     return doCurl("GET","/entity/report",p);
   }
@@ -2438,6 +2438,68 @@ public class CentralIndex
     p.Add("year",year);
     p.Add("month",month);
     return doCurl("GET","/stats/entity/by_date",p);
+  }
+
+
+  /**
+   * Update/Add a traction
+   *
+   *  @param traction_id
+   *  @param trigger_type
+   *  @param action_type
+   *  @param email_addresses
+   *  @param title
+   *  @param body
+   *  @param active
+   *  @return - the data from the api
+  */
+  public String postTraction( String traction_id, String trigger_type, String action_type, String email_addresses, String title, String body, String active) {
+    Hashtable p = new Hashtable();
+    p.Add("traction_id",traction_id);
+    p.Add("trigger_type",trigger_type);
+    p.Add("action_type",action_type);
+    p.Add("email_addresses",email_addresses);
+    p.Add("title",title);
+    p.Add("body",body);
+    p.Add("active",active);
+    return doCurl("POST","/traction",p);
+  }
+
+
+  /**
+   * Fetching a traction
+   *
+   *  @param traction_id
+   *  @return - the data from the api
+  */
+  public String getTraction( String traction_id) {
+    Hashtable p = new Hashtable();
+    p.Add("traction_id",traction_id);
+    return doCurl("GET","/traction",p);
+  }
+
+
+  /**
+   * Fetching active tractions
+   *
+   *  @return - the data from the api
+  */
+  public String getTractionActive() {
+    Hashtable p = new Hashtable();
+    return doCurl("GET","/traction/active",p);
+  }
+
+
+  /**
+   * Deleting a traction
+   *
+   *  @param traction_id
+   *  @return - the data from the api
+  */
+  public String deleteTraction( String traction_id) {
+    Hashtable p = new Hashtable();
+    p.Add("traction_id",traction_id);
+    return doCurl("DELETE","/traction",p);
   }
 
 
