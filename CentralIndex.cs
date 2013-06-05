@@ -551,36 +551,6 @@ public class CentralIndex
 
 
   /**
-   * Supply an entity and an object within it (e.g. a phone number), and retrieve a URL that allows the user to report an issue with that object
-   *
-   *  @param entity_id - The unique Entity ID e.g. 379236608286720
-   *  @param portal_name - The name of the portal that the user is coming from e.g. YourLocal
-   *  @param language
-   *  @return - the data from the api
-  */
-  public String getEntityReport( String entity_id, String portal_name, String language) {
-    Hashtable p = new Hashtable();
-    p.Add("entity_id",entity_id);
-    p.Add("portal_name",portal_name);
-    p.Add("language",language);
-    return doCurl("GET","/entity/report",p);
-  }
-
-
-  /**
-   * Allows us to identify the user, entity and element from an encoded endpoint URL's token
-   *
-   *  @param token
-   *  @return - the data from the api
-  */
-  public String getToolsDecodereport( String token) {
-    Hashtable p = new Hashtable();
-    p.Add("token",token);
-    return doCurl("GET","/tools/decodereport",p);
-  }
-
-
-  /**
    * Update entities that use an old category ID to a new one
    *
    *  @param from
@@ -617,9 +587,10 @@ public class CentralIndex
    *  @param website
    *  @param category_id
    *  @param category_type
+   *  @param do_not_display
    *  @return - the data from the api
   */
-  public String putBusiness( String name, String address1, String address2, String address3, String district, String town, String county, String postcode, String country, String latitude, String longitude, String timezone, String telephone_number, String email, String website, String category_id, String category_type) {
+  public String putBusiness( String name, String address1, String address2, String address3, String district, String town, String county, String postcode, String country, String latitude, String longitude, String timezone, String telephone_number, String email, String website, String category_id, String category_type, String do_not_display) {
     Hashtable p = new Hashtable();
     p.Add("name",name);
     p.Add("address1",address1);
@@ -638,39 +609,8 @@ public class CentralIndex
     p.Add("website",website);
     p.Add("category_id",category_id);
     p.Add("category_type",category_type);
+    p.Add("do_not_display",do_not_display);
     return doCurl("PUT","/business",p);
-  }
-
-
-  /**
-   * Provides a personalised URL to redirect a user to add an entity to Central Index
-   *
-   *  @param language - The language to use to render the add path e.g. en
-   *  @param portal_name - The name of the website that data is to be added on e.g. YourLocal
-   *  @return - the data from the api
-  */
-  public String getEntityAdd( String language, String portal_name) {
-    Hashtable p = new Hashtable();
-    p.Add("language",language);
-    p.Add("portal_name",portal_name);
-    return doCurl("GET","/entity/add",p);
-  }
-
-
-  /**
-   * Provides a personalised URL to redirect a user to claim an entity on Central Index
-   *
-   *  @param entity_id - Entity ID to be claimed e.g. 380348266819584
-   *  @param language - The language to use to render the claim path e.g. en
-   *  @param portal_name - The name of the website that entity is being claimed on e.g. YourLocal
-   *  @return - the data from the api
-  */
-  public String getEntityClaim( String entity_id, String language, String portal_name) {
-    Hashtable p = new Hashtable();
-    p.Add("entity_id",entity_id);
-    p.Add("language",language);
-    p.Add("portal_name",portal_name);
-    return doCurl("GET","/entity/claim",p);
   }
 
 
@@ -692,25 +632,6 @@ public class CentralIndex
     p.Add("tags_to_add",tags_to_add);
     p.Add("tags_to_remove",tags_to_remove);
     return doCurl("POST","/entity/advertiser/tag",p);
-  }
-
-
-  /**
-   * Allows the removal or insertion of locations into an advertiser object
-   *
-   *  @param gen_id - The gen_id of this advertiser
-   *  @param entity_id - The entity_id of the advertiser
-   *  @param locations_to_add - The locations to add
-   *  @param locations_to_remove - The locations to remove
-   *  @return - the data from the api
-  */
-  public String postEntityAdvertiserLocation( String gen_id, String entity_id, String locations_to_add, String locations_to_remove) {
-    Hashtable p = new Hashtable();
-    p.Add("gen_id",gen_id);
-    p.Add("entity_id",entity_id);
-    p.Add("locations_to_add",locations_to_add);
-    p.Add("locations_to_remove",locations_to_remove);
-    return doCurl("POST","/entity/advertiser/location",p);
   }
 
 
@@ -756,6 +677,34 @@ public class CentralIndex
     p.Add("id",id);
     p.Add("type",type);
     return doCurl("GET","/lookup/legacy/category",p);
+  }
+
+
+  /**
+   * Find all the parents locations of the selected location
+   *
+   *  @param location_id
+   *  @return - the data from the api
+  */
+  public String getLookupLocationParents( String location_id) {
+    Hashtable p = new Hashtable();
+    p.Add("location_id",location_id);
+    return doCurl("GET","/lookup/location/parents",p);
+  }
+
+
+  /**
+   * Find all the child locations of the selected location
+   *
+   *  @param location_id
+   *  @param resolution
+   *  @return - the data from the api
+  */
+  public String getLookupLocationChildren( String location_id, String resolution) {
+    Hashtable p = new Hashtable();
+    p.Add("location_id",location_id);
+    p.Add("resolution",resolution);
+    return doCurl("GET","/lookup/location/children",p);
   }
 
 
@@ -1171,11 +1120,15 @@ public class CentralIndex
    * Spider a single url looking for key facts
    *
    *  @param url
+   *  @param pages
+   *  @param country
    *  @return - the data from the api
   */
-  public String getToolsSpider( String url) {
+  public String getToolsSpider( String url, String pages, String country) {
     Hashtable p = new Hashtable();
     p.Add("url",url);
+    p.Add("pages",pages);
+    p.Add("country",country);
     return doCurl("GET","/tools/spider",p);
   }
 
@@ -1272,6 +1225,79 @@ public class CentralIndex
 
 
   /**
+   * Check to see if a supplied email address is valid
+   *
+   *  @param email_address - The email address to validate
+   *  @return - the data from the api
+  */
+  public String getToolsValidate_email( String email_address) {
+    Hashtable p = new Hashtable();
+    p.Add("email_address",email_address);
+    return doCurl("GET","/tools/validate_email",p);
+  }
+
+
+  /**
+   * compile the supplied less with the standard Bootstrap less into a CSS file
+   *
+   *  @param less - The LESS code to compile
+   *  @return - the data from the api
+  */
+  public String getToolsLess( String less) {
+    Hashtable p = new Hashtable();
+    p.Add("less",less);
+    return doCurl("GET","/tools/less",p);
+  }
+
+
+  /**
+   * replace some text parameters with some entity details
+   *
+   *  @param entity_id - The entity to pull for replacements
+   *  @param string - The string full of parameters
+   *  @return - the data from the api
+  */
+  public String getToolsReplace( String entity_id, String _string) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("string",_string);
+    return doCurl("GET","/tools/replace",p);
+  }
+
+
+  /**
+   * Check to see if a supplied email address is valid
+   *
+   *  @param from - The phone number from which the SMS orginates
+   *  @param to - The phone number to which the SMS is to be sent
+   *  @param message - The message to be sent in the SMS
+   *  @return - the data from the api
+  */
+  public String getToolsSendsms( String from, String to, String message) {
+    Hashtable p = new Hashtable();
+    p.Add("from",from);
+    p.Add("to",to);
+    p.Add("message",message);
+    return doCurl("GET","/tools/sendsms",p);
+  }
+
+
+  /**
+   * Given a spreadsheet id add a row
+   *
+   *  @param spreadsheet_key - The key of the spreadsheet to edit
+   *  @param data - A comma separated list to add as cells
+   *  @return - the data from the api
+  */
+  public String postToolsGooglesheetAdd_row( String spreadsheet_key, String data) {
+    Hashtable p = new Hashtable();
+    p.Add("spreadsheet_key",spreadsheet_key);
+    p.Add("data",data);
+    return doCurl("POST","/tools/googlesheet/add_row",p);
+  }
+
+
+  /**
    * With a known entity id, an invoice_address object can be updated.
    *
    *  @param entity_id
@@ -1357,9 +1383,10 @@ public class CentralIndex
    *  @param county
    *  @param postcode
    *  @param address_type
+   *  @param do_not_display
    *  @return - the data from the api
   */
-  public String postEntityPostal_address( String entity_id, String address1, String address2, String address3, String district, String town, String county, String postcode, String address_type) {
+  public String postEntityPostal_address( String entity_id, String address1, String address2, String address3, String district, String town, String county, String postcode, String address_type, String do_not_display) {
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
     p.Add("address1",address1);
@@ -1370,6 +1397,7 @@ public class CentralIndex
     p.Add("county",county);
     p.Add("postcode",postcode);
     p.Add("address_type",address_type);
+    p.Add("do_not_display",do_not_display);
     return doCurl("POST","/entity/postal_address",p);
   }
 
@@ -1380,7 +1408,9 @@ public class CentralIndex
    *  @param entity_id
    *  @param tags
    *  @param locations
-   *  @param expiry
+   *  @param max_tags
+   *  @param max_locations
+   *  @param expiry_date
    *  @param is_national
    *  @param language
    *  @param reseller_ref
@@ -1388,18 +1418,91 @@ public class CentralIndex
    *  @param publisher_id
    *  @return - the data from the api
   */
-  public String postEntityAdvertiser( String entity_id, String tags, String locations, String expiry, String is_national, String language, String reseller_ref, String reseller_agent_id, String publisher_id) {
+  public String postEntityAdvertiserCreate( String entity_id, String tags, String locations, String max_tags, String max_locations, String expiry_date, String is_national, String language, String reseller_ref, String reseller_agent_id, String publisher_id) {
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
     p.Add("tags",tags);
     p.Add("locations",locations);
-    p.Add("expiry",expiry);
+    p.Add("max_tags",max_tags);
+    p.Add("max_locations",max_locations);
+    p.Add("expiry_date",expiry_date);
     p.Add("is_national",is_national);
     p.Add("language",language);
     p.Add("reseller_ref",reseller_ref);
     p.Add("reseller_agent_id",reseller_agent_id);
     p.Add("publisher_id",publisher_id);
-    return doCurl("POST","/entity/advertiser",p);
+    return doCurl("POST","/entity/advertiser/create",p);
+  }
+
+
+  /**
+   * With a known entity id, an advertiser is updated
+   *
+   *  @param entity_id
+   *  @param tags
+   *  @param locations
+   *  @param extra_tags
+   *  @param extra_locations
+   *  @param is_national
+   *  @param language
+   *  @param reseller_ref
+   *  @param reseller_agent_id
+   *  @param publisher_id
+   *  @return - the data from the api
+  */
+  public String postEntityAdvertiserUpsell( String entity_id, String tags, String locations, String extra_tags, String extra_locations, String is_national, String language, String reseller_ref, String reseller_agent_id, String publisher_id) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("tags",tags);
+    p.Add("locations",locations);
+    p.Add("extra_tags",extra_tags);
+    p.Add("extra_locations",extra_locations);
+    p.Add("is_national",is_national);
+    p.Add("language",language);
+    p.Add("reseller_ref",reseller_ref);
+    p.Add("reseller_agent_id",reseller_agent_id);
+    p.Add("publisher_id",publisher_id);
+    return doCurl("POST","/entity/advertiser/upsell",p);
+  }
+
+
+  /**
+   * Expires an advertiser from and entity
+   *
+   *  @param entity_id
+   *  @param publisher_id
+   *  @param reseller_ref
+   *  @param reseller_agent_id
+   *  @return - the data from the api
+  */
+  public String postEntityAdvertiserCancel( String entity_id, String publisher_id, String reseller_ref, String reseller_agent_id) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("publisher_id",publisher_id);
+    p.Add("reseller_ref",reseller_ref);
+    p.Add("reseller_agent_id",reseller_agent_id);
+    return doCurl("POST","/entity/advertiser/cancel",p);
+  }
+
+
+  /**
+   * Renews an advertiser from an entity
+   *
+   *  @param entity_id
+   *  @param expiry_date
+   *  @param publisher_id
+   *  @param reseller_ref
+   *  @param reseller_agent_id
+   *  @return - the data from the api
+  */
+  public String postEntityAdvertiserRenew( String entity_id, String expiry_date, String publisher_id, String reseller_ref, String reseller_agent_id) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("expiry_date",expiry_date);
+    p.Add("publisher_id",publisher_id);
+    p.Add("reseller_ref",reseller_ref);
+    p.Add("reseller_agent_id",reseller_agent_id);
+    return doCurl("POST","/entity/advertiser/renew",p);
   }
 
 
@@ -1415,6 +1518,25 @@ public class CentralIndex
     p.Add("entity_id",entity_id);
     p.Add("gen_id",gen_id);
     return doCurl("DELETE","/entity/advertiser",p);
+  }
+
+
+  /**
+   * Adds/removes locations
+   *
+   *  @param entity_id
+   *  @param gen_id
+   *  @param locations_to_add
+   *  @param locations_to_remove
+   *  @return - the data from the api
+  */
+  public String postEntityAdvertiserLocation( String entity_id, String gen_id, String locations_to_add, String locations_to_remove) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("gen_id",gen_id);
+    p.Add("locations_to_add",locations_to_add);
+    p.Add("locations_to_remove",locations_to_remove);
+    return doCurl("POST","/entity/advertiser/location",p);
   }
 
 
@@ -1530,6 +1652,19 @@ public class CentralIndex
 
 
   /**
+   * Read multiple locations with the supplied ID in the locations reference database.
+   *
+   *  @param location_ids
+   *  @return - the data from the api
+  */
+  public String getLocationMultiple( String location_ids) {
+    Hashtable p = new Hashtable();
+    p.Add("location_ids",location_ids);
+    return doCurl("GET","/location/multiple",p);
+  }
+
+
+  /**
    * Create/update a new location entity with the supplied ID in the locations reference database.
    *
    *  @param location_id
@@ -1544,9 +1679,16 @@ public class CentralIndex
    *  @param timezone
    *  @param is_duplicate
    *  @param is_default
+   *  @param parent_town
+   *  @param parent_county
+   *  @param parent_province
+   *  @param parent_region
+   *  @param parent_neighbourhood
+   *  @param parent_district
+   *  @param postalcode
    *  @return - the data from the api
   */
-  public String postLocation( String location_id, String name, String formal_name, String latitude, String longitude, String resolution, String country, String population, String description, String timezone, String is_duplicate, String is_default) {
+  public String postLocation( String location_id, String name, String formal_name, String latitude, String longitude, String resolution, String country, String population, String description, String timezone, String is_duplicate, String is_default, String parent_town, String parent_county, String parent_province, String parent_region, String parent_neighbourhood, String parent_district, String postalcode) {
     Hashtable p = new Hashtable();
     p.Add("location_id",location_id);
     p.Add("name",name);
@@ -1560,6 +1702,13 @@ public class CentralIndex
     p.Add("timezone",timezone);
     p.Add("is_duplicate",is_duplicate);
     p.Add("is_default",is_default);
+    p.Add("parent_town",parent_town);
+    p.Add("parent_county",parent_county);
+    p.Add("parent_province",parent_province);
+    p.Add("parent_region",parent_region);
+    p.Add("parent_neighbourhood",parent_neighbourhood);
+    p.Add("parent_district",parent_district);
+    p.Add("postalcode",postalcode);
     return doCurl("POST","/location",p);
   }
 
@@ -1953,9 +2102,10 @@ public class CentralIndex
    *  @param user_type
    *  @param social_network
    *  @param social_network_id
+   *  @param reseller_admin_masheryid
    *  @return - the data from the api
   */
-  public String postUser( String email, String first_name, String last_name, String active, String trust, String creation_date, String user_type, String social_network, String social_network_id) {
+  public String postUser( String email, String first_name, String last_name, String active, String trust, String creation_date, String user_type, String social_network, String social_network_id, String reseller_admin_masheryid) {
     Hashtable p = new Hashtable();
     p.Add("email",email);
     p.Add("first_name",first_name);
@@ -1966,6 +2116,7 @@ public class CentralIndex
     p.Add("user_type",user_type);
     p.Add("social_network",social_network);
     p.Add("social_network_id",social_network_id);
+    p.Add("reseller_admin_masheryid",reseller_admin_masheryid);
     return doCurl("POST","/user",p);
   }
 
@@ -2012,6 +2163,32 @@ public class CentralIndex
 
 
   /**
+   * Returns all the users that match the supplied reseller_admin_masheryid
+   *
+   *  @param reseller_admin_masheryid
+   *  @return - the data from the api
+  */
+  public String getUserBy_reseller_admin_masheryid( String reseller_admin_masheryid) {
+    Hashtable p = new Hashtable();
+    p.Add("reseller_admin_masheryid",reseller_admin_masheryid);
+    return doCurl("GET","/user/by_reseller_admin_masheryid",p);
+  }
+
+
+  /**
+   * Removes reseller privileges from a specified user
+   *
+   *  @param user_id
+   *  @return - the data from the api
+  */
+  public String postUserReseller_remove( String user_id) {
+    Hashtable p = new Hashtable();
+    p.Add("user_id",user_id);
+    return doCurl("POST","/user/reseller_remove",p);
+  }
+
+
+  /**
    * The search matches a category name on a given string and language.
    *
    *  @param str - A string to search against, E.g. Plumbers e.g. but
@@ -2053,6 +2230,21 @@ public class CentralIndex
     p.Add("str",str);
     p.Add("country",country);
     return doCurl("GET","/autocomplete/location",p);
+  }
+
+
+  /**
+   * The search matches a postcode to the supplied string
+   *
+   *  @param str - A string to search against, E.g. W1 e.g. W1
+   *  @param country - Which country to return results for. An ISO compatible country code, E.g. gb e.g. gb
+   *  @return - the data from the api
+  */
+  public String getAutocompletePostcode( String str, String country) {
+    Hashtable p = new Hashtable();
+    p.Add("str",str);
+    p.Add("country",country);
+    return doCurl("GET","/autocomplete/postcode",p);
   }
 
 
@@ -2261,13 +2453,17 @@ public class CentralIndex
    *  @param entity_id
    *  @param claimed_user_id
    *  @param claimed_date
+   *  @param claim_method
+   *  @param phone_number
    *  @return - the data from the api
   */
-  public String postEntityClaim( String entity_id, String claimed_user_id, String claimed_date) {
+  public String postEntityClaim( String entity_id, String claimed_user_id, String claimed_date, String claim_method, String phone_number) {
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
     p.Add("claimed_user_id",claimed_user_id);
     p.Add("claimed_date",claimed_date);
+    p.Add("claim_method",claim_method);
+    p.Add("phone_number",phone_number);
     return doCurl("POST","/entity/claim",p);
   }
 
@@ -2366,9 +2562,10 @@ public class CentralIndex
    *  @param north
    *  @param south
    *  @param claimPrice
+   *  @param claimMethods
    *  @return - the data from the api
   */
-  public String postCountry( String country_id, String name, String synonyms, String continentName, String continent, String geonameId, String dbpediaURL, String freebaseURL, String population, String currencyCode, String languages, String areaInSqKm, String capital, String east, String west, String north, String south, String claimPrice) {
+  public String postCountry( String country_id, String name, String synonyms, String continentName, String continent, String geonameId, String dbpediaURL, String freebaseURL, String population, String currencyCode, String languages, String areaInSqKm, String capital, String east, String west, String north, String south, String claimPrice, String claimMethods) {
     Hashtable p = new Hashtable();
     p.Add("country_id",country_id);
     p.Add("name",name);
@@ -2388,6 +2585,7 @@ public class CentralIndex
     p.Add("north",north);
     p.Add("south",south);
     p.Add("claimPrice",claimPrice);
+    p.Add("claimMethods",claimMethods);
     return doCurl("POST","/country",p);
   }
 
@@ -2447,20 +2645,28 @@ public class CentralIndex
    *  @param traction_id
    *  @param trigger_type
    *  @param action_type
+   *  @param country
    *  @param email_addresses
    *  @param title
    *  @param body
+   *  @param api_method
+   *  @param api_url
+   *  @param api_params
    *  @param active
    *  @return - the data from the api
   */
-  public String postTraction( String traction_id, String trigger_type, String action_type, String email_addresses, String title, String body, String active) {
+  public String postTraction( String traction_id, String trigger_type, String action_type, String country, String email_addresses, String title, String body, String api_method, String api_url, String api_params, String active) {
     Hashtable p = new Hashtable();
     p.Add("traction_id",traction_id);
     p.Add("trigger_type",trigger_type);
     p.Add("action_type",action_type);
+    p.Add("country",country);
     p.Add("email_addresses",email_addresses);
     p.Add("title",title);
     p.Add("body",body);
+    p.Add("api_method",api_method);
+    p.Add("api_url",api_url);
+    p.Add("api_params",api_params);
     p.Add("active",active);
     return doCurl("POST","/traction",p);
   }
@@ -2500,6 +2706,568 @@ public class CentralIndex
     Hashtable p = new Hashtable();
     p.Add("traction_id",traction_id);
     return doCurl("DELETE","/traction",p);
+  }
+
+
+  /**
+   * Update/Add a message
+   *
+   *  @param message_id - Message id to pull
+   *  @param ses_id - Aamazon email id
+   *  @param from_user_id - User sending the message
+   *  @param from_email - Sent from email address
+   *  @param to_entity_id - The id of the entity being sent the message
+   *  @param to_email - Sent from email address
+   *  @param subject - Subject for the message
+   *  @param body - Body for the message
+   *  @param bounced - If the message bounced
+   *  @return - the data from the api
+  */
+  public String postMessage( String message_id, String ses_id, String from_user_id, String from_email, String to_entity_id, String to_email, String subject, String body, String bounced) {
+    Hashtable p = new Hashtable();
+    p.Add("message_id",message_id);
+    p.Add("ses_id",ses_id);
+    p.Add("from_user_id",from_user_id);
+    p.Add("from_email",from_email);
+    p.Add("to_entity_id",to_entity_id);
+    p.Add("to_email",to_email);
+    p.Add("subject",subject);
+    p.Add("body",body);
+    p.Add("bounced",bounced);
+    return doCurl("POST","/message",p);
+  }
+
+
+  /**
+   * Fetching a message
+   *
+   *  @param message_id - The message id to pull the message for
+   *  @return - the data from the api
+  */
+  public String getMessage( String message_id) {
+    Hashtable p = new Hashtable();
+    p.Add("message_id",message_id);
+    return doCurl("GET","/message",p);
+  }
+
+
+  /**
+   * Fetching messages by ses_id
+   *
+   *  @param ses_id - The amazon id to pull the message for
+   *  @return - the data from the api
+  */
+  public String getMessageBy_ses_id( String ses_id) {
+    Hashtable p = new Hashtable();
+    p.Add("ses_id",ses_id);
+    return doCurl("GET","/message/by_ses_id",p);
+  }
+
+
+  /**
+   * Update/Add a flatpack
+   *
+   *  @param flatpack_id - this record's unique, auto-generated id - if supplied, then this is an edit, otherwise it's an add
+   *  @param domainName - the domain name to serve this flatpack site on (no leading http:// or anything please)
+   *  @param flatpackName - the name of the Flat pack instance
+   *  @param less - the LESS configuration to use to overrides the Bootstrap CSS
+   *  @param language - the language in which to render the flatpack site
+   *  @param country - the country to use for searches etc
+   *  @param afsId - the adsense-for-search id to use for Google ads on serps
+   *  @param afcId - the adsense-for-content id to use for Google ads on bdps
+   *  @param mapsType - the type of maps to use
+   *  @param mapKey - the nokia map key to use to render maps
+   *  @param analyticsHTML - the html to insert to record page views
+   *  @param searchFormShowOn - list of pages to show the search form
+   *  @param searchFormShowKeywordsBox - whether to display the keywords box on the search form
+   *  @param searchFormShowLocationBox - whether to display the location box on search forms - not required
+   *  @param searchFormKeywordsAutoComplete - whether to do auto-completion on the keywords box on the search form
+   *  @param searchFormLocationsAutoComplete - whether to do auto-completion on the locations box on the search form
+   *  @param searchFormDefaultLocation - the string to use as the default location for searches if no location is supplied
+   *  @param searchFormPlaceholderKeywords - the string to show in the keyword box as placeholder text e.g. e.g. cafe
+   *  @param searchFormPlaceholderLocation - the string to show in the location box as placeholder text e.g. e.g. Dublin
+   *  @param searchFormKeywordsLabel - the string to show next to the keywords control e.g. I'm looking for
+   *  @param searchFormLocationLabel - the string to show next to the location control e.g. Located in
+   *  @param cannedLinksHeader - the string to show above canned searches
+   *  @param homepageTitle - the page title of site's home page
+   *  @param homepageDescription - the meta description of the home page
+   *  @param homepageIntroTitle - the introductory title for the homepage
+   *  @param homepageIntroText - the introductory text for the homepage
+   *  @param adblockHeader - the html (JS) to render an advert
+   *  @param adblock728x90 - the html (JS) to render a 728x90 advert
+   *  @param adblock468x60 - the html (JS) to render a 468x60 advert
+   *  @param header_menu - the JSON that describes a navigation at the top of the page
+   *  @param footer_menu - the JSON that describes a navigation at the bottom of the page
+   *  @param bdpTitle - The page title of the entity business profile pages
+   *  @param bdpDescription - The meta description of entity business profile pages
+   *  @param serpTitle - The page title of the serps
+   *  @param serpDescription - The meta description of serps
+   *  @param serpNumberResults - The number of results per search page
+   *  @param serpNumberAdverts - The number of adverts to show on the first search page
+   *  @param cookiePolicyUrl - The cookie policy url of the flatpack
+   *  @param cookiePolicyNotice - Whether to show the cookie policy on this flatpack
+   *  @param addBusinessButtonText - The text used in the 'Add your business' button
+   *  @param twitterUrl - Twitter link
+   *  @param facebookUrl - Facebook link
+   *  @return - the data from the api
+  */
+  public String postFlatpack( String flatpack_id, String domainName, String flatpackName, String less, String language, String country, String afsId, String afcId, String mapsType, String mapKey, String analyticsHTML, String searchFormShowOn, String searchFormShowKeywordsBox, String searchFormShowLocationBox, String searchFormKeywordsAutoComplete, String searchFormLocationsAutoComplete, String searchFormDefaultLocation, String searchFormPlaceholderKeywords, String searchFormPlaceholderLocation, String searchFormKeywordsLabel, String searchFormLocationLabel, String cannedLinksHeader, String homepageTitle, String homepageDescription, String homepageIntroTitle, String homepageIntroText, String adblockHeader, String adblock728x90, String adblock468x60, String header_menu, String footer_menu, String bdpTitle, String bdpDescription, String serpTitle, String serpDescription, String serpNumberResults, String serpNumberAdverts, String cookiePolicyUrl, String cookiePolicyNotice, String addBusinessButtonText, String twitterUrl, String facebookUrl) {
+    Hashtable p = new Hashtable();
+    p.Add("flatpack_id",flatpack_id);
+    p.Add("domainName",domainName);
+    p.Add("flatpackName",flatpackName);
+    p.Add("less",less);
+    p.Add("language",language);
+    p.Add("country",country);
+    p.Add("afsId",afsId);
+    p.Add("afcId",afcId);
+    p.Add("mapsType",mapsType);
+    p.Add("mapKey",mapKey);
+    p.Add("analyticsHTML",analyticsHTML);
+    p.Add("searchFormShowOn",searchFormShowOn);
+    p.Add("searchFormShowKeywordsBox",searchFormShowKeywordsBox);
+    p.Add("searchFormShowLocationBox",searchFormShowLocationBox);
+    p.Add("searchFormKeywordsAutoComplete",searchFormKeywordsAutoComplete);
+    p.Add("searchFormLocationsAutoComplete",searchFormLocationsAutoComplete);
+    p.Add("searchFormDefaultLocation",searchFormDefaultLocation);
+    p.Add("searchFormPlaceholderKeywords",searchFormPlaceholderKeywords);
+    p.Add("searchFormPlaceholderLocation",searchFormPlaceholderLocation);
+    p.Add("searchFormKeywordsLabel",searchFormKeywordsLabel);
+    p.Add("searchFormLocationLabel",searchFormLocationLabel);
+    p.Add("cannedLinksHeader",cannedLinksHeader);
+    p.Add("homepageTitle",homepageTitle);
+    p.Add("homepageDescription",homepageDescription);
+    p.Add("homepageIntroTitle",homepageIntroTitle);
+    p.Add("homepageIntroText",homepageIntroText);
+    p.Add("adblockHeader",adblockHeader);
+    p.Add("adblock728x90",adblock728x90);
+    p.Add("adblock468x60",adblock468x60);
+    p.Add("header_menu",header_menu);
+    p.Add("footer_menu",footer_menu);
+    p.Add("bdpTitle",bdpTitle);
+    p.Add("bdpDescription",bdpDescription);
+    p.Add("serpTitle",serpTitle);
+    p.Add("serpDescription",serpDescription);
+    p.Add("serpNumberResults",serpNumberResults);
+    p.Add("serpNumberAdverts",serpNumberAdverts);
+    p.Add("cookiePolicyUrl",cookiePolicyUrl);
+    p.Add("cookiePolicyNotice",cookiePolicyNotice);
+    p.Add("addBusinessButtonText",addBusinessButtonText);
+    p.Add("twitterUrl",twitterUrl);
+    p.Add("facebookUrl",facebookUrl);
+    return doCurl("POST","/flatpack",p);
+  }
+
+
+  /**
+   * Get a flatpack
+   *
+   *  @param flatpack_id - the unique id to search for
+   *  @return - the data from the api
+  */
+  public String getFlatpack( String flatpack_id) {
+    Hashtable p = new Hashtable();
+    p.Add("flatpack_id",flatpack_id);
+    return doCurl("GET","/flatpack",p);
+  }
+
+
+  /**
+   * Get a flatpack using a domain name
+   *
+   *  @param domainName - the domain name to search for
+   *  @return - the data from the api
+  */
+  public String getFlatpackBy_domain_name( String domainName) {
+    Hashtable p = new Hashtable();
+    p.Add("domainName",domainName);
+    return doCurl("GET","/flatpack/by_domain_name",p);
+  }
+
+
+  /**
+   * Remove a flatpack using a supplied flatpack_id
+   *
+   *  @param flatpack_id - the id of the flatpack to delete
+   *  @return - the data from the api
+  */
+  public String deleteFlatpack( String flatpack_id) {
+    Hashtable p = new Hashtable();
+    p.Add("flatpack_id",flatpack_id);
+    return doCurl("DELETE","/flatpack",p);
+  }
+
+
+  /**
+   * Add a canned link to an existing flatpack site.
+   *
+   *  @param flatpack_id - the id of the flatpack to delete
+   *  @param keywords - the keywords to use in the canned search
+   *  @param location - the location to use in the canned search
+   *  @param linkText - the link text to be used to in the canned search link
+   *  @return - the data from the api
+  */
+  public String postFlatpackLink( String flatpack_id, String keywords, String location, String linkText) {
+    Hashtable p = new Hashtable();
+    p.Add("flatpack_id",flatpack_id);
+    p.Add("keywords",keywords);
+    p.Add("location",location);
+    p.Add("linkText",linkText);
+    return doCurl("POST","/flatpack/link",p);
+  }
+
+
+  /**
+   * Remove a canned link to an existing flatpack site.
+   *
+   *  @param flatpack_id - the id of the flatpack to delete
+   *  @param gen_id - the id of the canned link to remove
+   *  @return - the data from the api
+  */
+  public String deleteFlatpackLink( String flatpack_id, String gen_id) {
+    Hashtable p = new Hashtable();
+    p.Add("flatpack_id",flatpack_id);
+    p.Add("gen_id",gen_id);
+    return doCurl("DELETE","/flatpack/link",p);
+  }
+
+
+  /**
+   * Upload a logo to serve out with this flatpack
+   *
+   *  @param flatpack_id - the id of the flatpack to update
+   *  @param filedata
+   *  @return - the data from the api
+  */
+  public String postFlatpackLogo( String flatpack_id, String filedata) {
+    Hashtable p = new Hashtable();
+    p.Add("flatpack_id",flatpack_id);
+    p.Add("filedata",filedata);
+    return doCurl("POST","/flatpack/logo",p);
+  }
+
+
+  /**
+   * Upload a file to our asset server and return the url
+   *
+   *  @param filedata
+   *  @return - the data from the api
+  */
+  public String postFlatpackUpload( String filedata) {
+    Hashtable p = new Hashtable();
+    p.Add("filedata",filedata);
+    return doCurl("POST","/flatpack/upload",p);
+  }
+
+
+  /**
+   * Upload an icon to serve out with this flatpack
+   *
+   *  @param flatpack_id - the id of the flatpack to update
+   *  @param filedata
+   *  @return - the data from the api
+  */
+  public String postFlatpackIcon( String flatpack_id, String filedata) {
+    Hashtable p = new Hashtable();
+    p.Add("flatpack_id",flatpack_id);
+    p.Add("filedata",filedata);
+    return doCurl("POST","/flatpack/icon",p);
+  }
+
+
+  /**
+   * Allows us to identify the user, entity and element from an encoded endpoint URL's token
+   *
+   *  @param token
+   *  @return - the data from the api
+  */
+  public String getTokenDecode( String token) {
+    Hashtable p = new Hashtable();
+    p.Add("token",token);
+    return doCurl("GET","/token/decode",p);
+  }
+
+
+  /**
+   * Provides a tokenised URL to redirect a user so they can add an entity to Central Index
+   *
+   *  @param language - The language to use to render the add path e.g. en
+   *  @param portal_name - The name of the website that data is to be added on e.g. YourLocal
+   *  @return - the data from the api
+  */
+  public String getTokenAdd( String language, String portal_name) {
+    Hashtable p = new Hashtable();
+    p.Add("language",language);
+    p.Add("portal_name",portal_name);
+    return doCurl("GET","/token/add",p);
+  }
+
+
+  /**
+   * Provides a tokenised URL to redirect a user to claim an entity on Central Index
+   *
+   *  @param entity_id - Entity ID to be claimed e.g. 380348266819584
+   *  @param language - The language to use to render the claim path e.g. en
+   *  @param portal_name - The name of the website that entity is being claimed on e.g. YourLocal
+   *  @return - the data from the api
+  */
+  public String getTokenClaim( String entity_id, String language, String portal_name) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("language",language);
+    p.Add("portal_name",portal_name);
+    return doCurl("GET","/token/claim",p);
+  }
+
+
+  /**
+   * Provides a tokenised URL that allows a user to report incorrect entity information
+   *
+   *  @param entity_id - The unique Entity ID e.g. 379236608286720
+   *  @param portal_name - The name of the portal that the user is coming from e.g. YourLocal
+   *  @param language - The language to use to render the report path
+   *  @return - the data from the api
+  */
+  public String getTokenReport( String entity_id, String portal_name, String language) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("portal_name",portal_name);
+    p.Add("language",language);
+    return doCurl("GET","/token/report",p);
+  }
+
+
+  /**
+   * Fetch token for messaging path
+   *
+   *  @param entity_id - The id of the entity being messaged
+   *  @param portal_name - The name of the application that has initiated the email process, example: 'Your Local'
+   *  @param language - The language for the app
+   *  @return - the data from the api
+  */
+  public String getTokenMessage( String entity_id, String portal_name, String language) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("portal_name",portal_name);
+    p.Add("language",language);
+    return doCurl("GET","/token/message",p);
+  }
+
+
+  /**
+   * Send an email via amazon
+   *
+   *  @param to_email_address - The email address to send the email too
+   *  @param reply_email_address - The email address to add in the reply to field
+   *  @param source_account - The source account to send the email from
+   *  @param subject - The subject for the email
+   *  @param body - The body for the email
+   *  @param html_body - If the body of the email is html
+   *  @return - the data from the api
+  */
+  public String postEmail( String to_email_address, String reply_email_address, String source_account, String subject, String body, String html_body) {
+    Hashtable p = new Hashtable();
+    p.Add("to_email_address",to_email_address);
+    p.Add("reply_email_address",reply_email_address);
+    p.Add("source_account",source_account);
+    p.Add("subject",subject);
+    p.Add("body",body);
+    p.Add("html_body",html_body);
+    return doCurl("POST","/email",p);
+  }
+
+
+  /**
+   * Log a sale
+   *
+   *  @param entity_id - The entity the sale was made against
+   *  @param action_type - The type of action we are performing
+   *  @param publisher_id - The publisher id that has made the sale
+   *  @param mashery_id - The mashery id
+   *  @param reseller_ref - The reference of the sale made by the seller
+   *  @param reseller_agent_id - The id of the agent selling the product
+   *  @param max_tags - The number of tags available to the entity
+   *  @param max_locations - The number of locations available to the entity
+   *  @param extra_tags - The extra number of tags
+   *  @param extra_locations - The extra number of locations
+   *  @param expiry_date - The date the product expires
+   *  @return - the data from the api
+  */
+  public String postSales_log( String entity_id, String action_type, String publisher_id, String mashery_id, String reseller_ref, String reseller_agent_id, String max_tags, String max_locations, String extra_tags, String extra_locations, String expiry_date) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("action_type",action_type);
+    p.Add("publisher_id",publisher_id);
+    p.Add("mashery_id",mashery_id);
+    p.Add("reseller_ref",reseller_ref);
+    p.Add("reseller_agent_id",reseller_agent_id);
+    p.Add("max_tags",max_tags);
+    p.Add("max_locations",max_locations);
+    p.Add("extra_tags",extra_tags);
+    p.Add("extra_locations",extra_locations);
+    p.Add("expiry_date",expiry_date);
+    return doCurl("POST","/sales_log",p);
+  }
+
+
+  /**
+   * Return a sales log by id
+   *
+   *  @param sales_log_id - The sales log id to pull
+   *  @return - the data from the api
+  */
+  public String getSales_log( String sales_log_id) {
+    Hashtable p = new Hashtable();
+    p.Add("sales_log_id",sales_log_id);
+    return doCurl("GET","/sales_log",p);
+  }
+
+
+  /**
+   * With a known entity id, a social media object can be added.
+   *
+   *  @param entity_id
+   *  @param type
+   *  @param website_url
+   *  @return - the data from the api
+  */
+  public String postEntitySocialmedia( String entity_id, String type, String website_url) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("type",type);
+    p.Add("website_url",website_url);
+    return doCurl("POST","/entity/socialmedia",p);
+  }
+
+
+  /**
+   * Allows a social media object to be reduced in confidence
+   *
+   *  @param entity_id
+   *  @param gen_id
+   *  @return - the data from the api
+  */
+  public String deleteEntitySocialmedia( String entity_id, String gen_id) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("gen_id",gen_id);
+    return doCurl("DELETE","/entity/socialmedia",p);
+  }
+
+
+  /**
+   * With a known entity id, a private object can be added.
+   *
+   *  @param entity_id - The entity to associate the private object with
+   *  @param data - The data to store
+   *  @return - the data from the api
+  */
+  public String putPrivate_object( String entity_id, String data) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("data",data);
+    return doCurl("PUT","/private_object",p);
+  }
+
+
+  /**
+   * Allows a private object to be removed
+   *
+   *  @param private_object_id - The id of the private object to remove
+   *  @return - the data from the api
+  */
+  public String deletePrivate_object( String private_object_id) {
+    Hashtable p = new Hashtable();
+    p.Add("private_object_id",private_object_id);
+    return doCurl("DELETE","/private_object",p);
+  }
+
+
+  /**
+   * Allows a private object to be returned based on the entity_id and masheryid
+   *
+   *  @param entity_id - The entity associated with the private object
+   *  @return - the data from the api
+  */
+  public String getPrivate_objectAll( String entity_id) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    return doCurl("GET","/private_object/all",p);
+  }
+
+
+  /**
+   * Update/Add a Group
+   *
+   *  @param group_id
+   *  @param name
+   *  @param description
+   *  @param url
+   *  @return - the data from the api
+  */
+  public String postGroup( String group_id, String name, String description, String url) {
+    Hashtable p = new Hashtable();
+    p.Add("group_id",group_id);
+    p.Add("name",name);
+    p.Add("description",description);
+    p.Add("url",url);
+    return doCurl("POST","/group",p);
+  }
+
+
+  /**
+   * Delete a group with a specified group_id
+   *
+   *  @param group_id
+   *  @return - the data from the api
+  */
+  public String deleteGroup( String group_id) {
+    Hashtable p = new Hashtable();
+    p.Add("group_id",group_id);
+    return doCurl("DELETE","/group",p);
+  }
+
+
+  /**
+   * Returns group that matches a given group id
+   *
+   *  @param group_id
+   *  @return - the data from the api
+  */
+  public String getGroup( String group_id) {
+    Hashtable p = new Hashtable();
+    p.Add("group_id",group_id);
+    return doCurl("GET","/group",p);
+  }
+
+
+  /**
+   * With a known entity id, a group  can be added to group members.
+   *
+   *  @param entity_id
+   *  @param group_id
+   *  @return - the data from the api
+  */
+  public String postEntityGroup( String entity_id, String group_id) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("group_id",group_id);
+    return doCurl("POST","/entity/group",p);
+  }
+
+
+  /**
+   * Allows a group object to be removed from an entities group members
+   *
+   *  @param entity_id
+   *  @param gen_id
+   *  @return - the data from the api
+  */
+  public String deleteEntityGroup( String entity_id, String gen_id) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("gen_id",gen_id);
+    return doCurl("DELETE","/entity/group",p);
   }
 
 
