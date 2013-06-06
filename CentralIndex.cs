@@ -1,4 +1,3 @@
-Starting Wolf using 'dev' configuration
 using System;
 using System.IO;
 using System.Net;
@@ -1818,19 +1817,15 @@ public class CentralIndex
    *
    *  @param entity_id
    *  @param title
-   *  @param description
-   *  @param thumbnail
    *  @param embed_code
    *  @return - the data from the api
   */
-  public String postEntityVideo( String entity_id, String title, String description, String thumbnail, String embed_code) {
+  public String postEntityVideoYoutube( String entity_id, String title, String embed_code) {
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
     p.Add("title",title);
-    p.Add("description",description);
-    p.Add("thumbnail",thumbnail);
     p.Add("embed_code",embed_code);
-    return doCurl("POST","/entity/video",p);
+    return doCurl("POST","/entity/video/youtube",p);
   }
 
 
@@ -2773,8 +2768,6 @@ public class CentralIndex
    *  @param less - the LESS configuration to use to overrides the Bootstrap CSS
    *  @param language - the language in which to render the flatpack site
    *  @param country - the country to use for searches etc
-   *  @param afsId - the adsense-for-search id to use for Google ads on serps
-   *  @param afcId - the adsense-for-content id to use for Google ads on bdps
    *  @param mapsType - the type of maps to use
    *  @param mapKey - the nokia map key to use to render maps
    *  @param analyticsHTML - the html to insert to record page views
@@ -2800,10 +2793,12 @@ public class CentralIndex
    *  @param footer_menu - the JSON that describes a navigation at the bottom of the page
    *  @param bdpTitle - The page title of the entity business profile pages
    *  @param bdpDescription - The meta description of entity business profile pages
+   *  @param bdpAds - The block of HTML/JS that renders Ads on BDPs
    *  @param serpTitle - The page title of the serps
    *  @param serpDescription - The meta description of serps
    *  @param serpNumberResults - The number of results per search page
    *  @param serpNumberAdverts - The number of adverts to show on the first search page
+   *  @param serpAds - The block of HTML/JS that renders Ads on Serps
    *  @param cookiePolicyUrl - The cookie policy url of the flatpack
    *  @param cookiePolicyNotice - Whether to show the cookie policy on this flatpack
    *  @param addBusinessButtonText - The text used in the 'Add your business' button
@@ -2811,7 +2806,7 @@ public class CentralIndex
    *  @param facebookUrl - Facebook link
    *  @return - the data from the api
   */
-  public String postFlatpack( String flatpack_id, String domainName, String flatpackName, String less, String language, String country, String afsId, String afcId, String mapsType, String mapKey, String analyticsHTML, String searchFormShowOn, String searchFormShowKeywordsBox, String searchFormShowLocationBox, String searchFormKeywordsAutoComplete, String searchFormLocationsAutoComplete, String searchFormDefaultLocation, String searchFormPlaceholderKeywords, String searchFormPlaceholderLocation, String searchFormKeywordsLabel, String searchFormLocationLabel, String cannedLinksHeader, String homepageTitle, String homepageDescription, String homepageIntroTitle, String homepageIntroText, String adblockHeader, String adblock728x90, String adblock468x60, String header_menu, String footer_menu, String bdpTitle, String bdpDescription, String serpTitle, String serpDescription, String serpNumberResults, String serpNumberAdverts, String cookiePolicyUrl, String cookiePolicyNotice, String addBusinessButtonText, String twitterUrl, String facebookUrl) {
+  public String postFlatpack( String flatpack_id, String domainName, String flatpackName, String less, String language, String country, String mapsType, String mapKey, String analyticsHTML, String searchFormShowOn, String searchFormShowKeywordsBox, String searchFormShowLocationBox, String searchFormKeywordsAutoComplete, String searchFormLocationsAutoComplete, String searchFormDefaultLocation, String searchFormPlaceholderKeywords, String searchFormPlaceholderLocation, String searchFormKeywordsLabel, String searchFormLocationLabel, String cannedLinksHeader, String homepageTitle, String homepageDescription, String homepageIntroTitle, String homepageIntroText, String adblockHeader, String adblock728x90, String adblock468x60, String header_menu, String footer_menu, String bdpTitle, String bdpDescription, String bdpAds, String serpTitle, String serpDescription, String serpNumberResults, String serpNumberAdverts, String serpAds, String cookiePolicyUrl, String cookiePolicyNotice, String addBusinessButtonText, String twitterUrl, String facebookUrl) {
     Hashtable p = new Hashtable();
     p.Add("flatpack_id",flatpack_id);
     p.Add("domainName",domainName);
@@ -2819,8 +2814,6 @@ public class CentralIndex
     p.Add("less",less);
     p.Add("language",language);
     p.Add("country",country);
-    p.Add("afsId",afsId);
-    p.Add("afcId",afcId);
     p.Add("mapsType",mapsType);
     p.Add("mapKey",mapKey);
     p.Add("analyticsHTML",analyticsHTML);
@@ -2846,10 +2839,12 @@ public class CentralIndex
     p.Add("footer_menu",footer_menu);
     p.Add("bdpTitle",bdpTitle);
     p.Add("bdpDescription",bdpDescription);
+    p.Add("bdpAds",bdpAds);
     p.Add("serpTitle",serpTitle);
     p.Add("serpDescription",serpDescription);
     p.Add("serpNumberResults",serpNumberResults);
     p.Add("serpNumberAdverts",serpNumberAdverts);
+    p.Add("serpAds",serpAds);
     p.Add("cookiePolicyUrl",cookiePolicyUrl);
     p.Add("cookiePolicyNotice",cookiePolicyNotice);
     p.Add("addBusinessButtonText",addBusinessButtonText);
