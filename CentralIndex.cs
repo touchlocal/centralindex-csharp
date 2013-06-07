@@ -1813,17 +1813,15 @@ public class CentralIndex
 
 
   /**
-   * With a known entity id, avideo object can be added.
+   * With a known entity id, a YouTube video object can be added.
    *
    *  @param entity_id
-   *  @param title
    *  @param embed_code
    *  @return - the data from the api
   */
-  public String postEntityVideoYoutube( String entity_id, String title, String embed_code) {
+  public String postEntityVideoYoutube( String entity_id, String embed_code) {
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
-    p.Add("title",title);
     p.Add("embed_code",embed_code);
     return doCurl("POST","/entity/video/youtube",p);
   }
