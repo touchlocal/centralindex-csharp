@@ -2879,6 +2879,17 @@ public class CentralIndex
 
 
   /**
+   * Get flatpacks that match the supplied masheryid
+   *
+   *  @return - the data from the api
+  */
+  public String getFlatpackBy_masheryid() {
+    Hashtable p = new Hashtable();
+    return doCurl("GET","/flatpack/by_masheryid",p);
+  }
+
+
+  /**
    * Remove a flatpack using a supplied flatpack_id
    *
    *  @param flatpack_id - the id of the flatpack to delete
@@ -3044,6 +3055,21 @@ public class CentralIndex
     p.Add("portal_name",portal_name);
     p.Add("language",language);
     return doCurl("GET","/token/message",p);
+  }
+
+
+  /**
+   * Fetch token for login path
+   *
+   *  @param portal_name - The name of the application that has initiated the login process, example: 'Your Local'
+   *  @param language - The language for the app
+   *  @return - the data from the api
+  */
+  public String getTokenLogin( String portal_name, String language) {
+    Hashtable p = new Hashtable();
+    p.Add("portal_name",portal_name);
+    p.Add("language",language);
+    return doCurl("GET","/token/login",p);
   }
 
 
