@@ -570,6 +570,7 @@ public class CentralIndex
    * Create a new business entity with all it's objects
    *
    *  @param name
+   *  @param building_number
    *  @param address1
    *  @param address2
    *  @param address3
@@ -589,9 +590,10 @@ public class CentralIndex
    *  @param do_not_display
    *  @return - the data from the api
   */
-  public String putBusiness( String name, String address1, String address2, String address3, String district, String town, String county, String postcode, String country, String latitude, String longitude, String timezone, String telephone_number, String email, String website, String category_id, String category_type, String do_not_display) {
+  public String putBusiness( String name, String building_number, String address1, String address2, String address3, String district, String town, String county, String postcode, String country, String latitude, String longitude, String timezone, String telephone_number, String email, String website, String category_id, String category_type, String do_not_display) {
     Hashtable p = new Hashtable();
     p.Add("name",name);
+    p.Add("building_number",building_number);
     p.Add("address1",address1);
     p.Add("address2",address2);
     p.Add("address3",address3);
@@ -1135,6 +1137,7 @@ public class CentralIndex
   /**
    * Supply an address to geocode - returns lat/lon and accuracy
    *
+   *  @param building_number
    *  @param address1
    *  @param address2
    *  @param address3
@@ -1145,8 +1148,9 @@ public class CentralIndex
    *  @param country
    *  @return - the data from the api
   */
-  public String getToolsGeocode( String address1, String address2, String address3, String district, String town, String county, String postcode, String country) {
+  public String getToolsGeocode( String building_number, String address1, String address2, String address3, String district, String town, String county, String postcode, String country) {
     Hashtable p = new Hashtable();
+    p.Add("building_number",building_number);
     p.Add("address1",address1);
     p.Add("address2",address2);
     p.Add("address3",address3);
@@ -1300,6 +1304,7 @@ public class CentralIndex
    * With a known entity id, an invoice_address object can be updated.
    *
    *  @param entity_id
+   *  @param building_number
    *  @param address1
    *  @param address2
    *  @param address3
@@ -1310,9 +1315,10 @@ public class CentralIndex
    *  @param address_type
    *  @return - the data from the api
   */
-  public String postEntityInvoice_address( String entity_id, String address1, String address2, String address3, String district, String town, String county, String postcode, String address_type) {
+  public String postEntityInvoice_address( String entity_id, String building_number, String address1, String address2, String address3, String district, String town, String county, String postcode, String address_type) {
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
+    p.Add("building_number",building_number);
     p.Add("address1",address1);
     p.Add("address2",address2);
     p.Add("address3",address3);
@@ -1374,6 +1380,7 @@ public class CentralIndex
    * Create/Update a postal address
    *
    *  @param entity_id
+   *  @param building_number
    *  @param address1
    *  @param address2
    *  @param address3
@@ -1385,9 +1392,10 @@ public class CentralIndex
    *  @param do_not_display
    *  @return - the data from the api
   */
-  public String postEntityPostal_address( String entity_id, String address1, String address2, String address3, String district, String town, String county, String postcode, String address_type, String do_not_display) {
+  public String postEntityPostal_address( String entity_id, String building_number, String address1, String address2, String address3, String district, String town, String county, String postcode, String address_type, String do_not_display) {
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
+    p.Add("building_number",building_number);
     p.Add("address1",address1);
     p.Add("address2",address2);
     p.Add("address3",address3);
@@ -2997,12 +3005,14 @@ public class CentralIndex
    *
    *  @param language - The language to use to render the add path e.g. en
    *  @param portal_name - The name of the website that data is to be added on e.g. YourLocal
+   *  @param country - The country of the entity to be added e.g. gb
    *  @return - the data from the api
   */
-  public String getTokenAdd( String language, String portal_name) {
+  public String getTokenAdd( String language, String portal_name, String country) {
     Hashtable p = new Hashtable();
     p.Add("language",language);
     p.Add("portal_name",portal_name);
+    p.Add("country",country);
     return doCurl("GET","/token/add",p);
   }
 
@@ -3070,6 +3080,33 @@ public class CentralIndex
     p.Add("portal_name",portal_name);
     p.Add("language",language);
     return doCurl("GET","/token/login",p);
+  }
+
+
+  /**
+   * Fetch token for update path
+   *
+   *  @param entity_id - The id of the entity being upgraded
+   *  @param portal_name - The name of the application that has initiated the login process, example: 'Your Local'
+   *  @param language - The language for the app
+   *  @param price - The price of the advert in the entities native currency
+   *  @param max_tags - The number of tags attached to the advert
+   *  @param max_locations - The number of locations attached to the advert
+   *  @param contract_length - The number of days from the initial sale date that the contract is valid for
+   *  @param ref_id - The campaign or reference id
+   *  @return - the data from the api
+  */
+  public String getTokenUpgrade( String entity_id, String portal_name, String language, String price, String max_tags, String max_locations, String contract_length, String ref_id) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("portal_name",portal_name);
+    p.Add("language",language);
+    p.Add("price",price);
+    p.Add("max_tags",max_tags);
+    p.Add("max_locations",max_locations);
+    p.Add("contract_length",contract_length);
+    p.Add("ref_id",ref_id);
+    return doCurl("GET","/token/upgrade",p);
   }
 
 
@@ -3287,6 +3324,23 @@ public class CentralIndex
     p.Add("entity_id",entity_id);
     p.Add("gen_id",gen_id);
     return doCurl("DELETE","/entity/group",p);
+  }
+
+
+  /**
+   * Add an entityserve document
+   *
+   *  @param entity_id - The id of the entity to create the entityserve event for
+   *  @param country - the ISO code of the country
+   *  @param event_type - The event type being recorded
+   *  @return - the data from the api
+  */
+  public String putEntityserve( String entity_id, String country, String event_type) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("country",country);
+    p.Add("event_type",event_type);
+    return doCurl("PUT","/entityserve",p);
   }
 
 
