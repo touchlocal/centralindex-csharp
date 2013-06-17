@@ -1286,6 +1286,25 @@ public class CentralIndex
 
 
   /**
+   * Ring the person and verify their account
+   *
+   *  @param to - The phone number to verify
+   *  @param from - The phone number to call from
+   *  @param pin - The pin to verify the phone number with
+   *  @param language - The language to read the verification in
+   *  @return - the data from the api
+  */
+  public String getToolsPhonecallVerify( String to, String from, String pin, String language) {
+    Hashtable p = new Hashtable();
+    p.Add("to",to);
+    p.Add("from",from);
+    p.Add("pin",pin);
+    p.Add("language",language);
+    return doCurl("GET","/tools/phonecall/verify",p);
+  }
+
+
+  /**
    * Given a spreadsheet id add a row
    *
    *  @param spreadsheet_key - The key of the spreadsheet to edit
@@ -1544,6 +1563,21 @@ public class CentralIndex
     p.Add("locations_to_add",locations_to_add);
     p.Add("locations_to_remove",locations_to_remove);
     return doCurl("POST","/entity/advertiser/location",p);
+  }
+
+
+  /**
+   * Get all advertisers that have been updated from a give date for a given reseller
+   *
+   *  @param from_date
+   *  @param country
+   *  @return - the data from the api
+  */
+  public String getAdvertiserUpdated( String from_date, String country) {
+    Hashtable p = new Hashtable();
+    p.Add("from_date",from_date);
+    p.Add("country",country);
+    return doCurl("GET","/advertiser/updated",p);
   }
 
 
