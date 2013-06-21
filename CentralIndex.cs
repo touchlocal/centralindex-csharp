@@ -1870,7 +1870,6 @@ public class CentralIndex
    *  @param country - the country to use for searches etc
    *  @param mapsType - the type of maps to use
    *  @param mapKey - the nokia map key to use to render maps
-   *  @param analyticsHTML - the html to insert to record page views
    *  @param searchFormShowOn - list of pages to show the search form
    *  @param searchFormShowKeywordsBox - whether to display the keywords box on the search form
    *  @param searchFormShowLocationBox - whether to display the location box on search forms - not required
@@ -1886,9 +1885,10 @@ public class CentralIndex
    *  @param homepageDescription - the meta description of the home page
    *  @param homepageIntroTitle - the introductory title for the homepage
    *  @param homepageIntroText - the introductory text for the homepage
-   *  @param adblockHeader - the html (JS) to render an advert
-   *  @param adblock728x90 - the html (JS) to render a 728x90 advert
-   *  @param adblock468x60 - the html (JS) to render a 468x60 advert
+   *  @param head - payload to put in the head of the flatpack
+   *  @param adblock - payload to put in the adblock of the flatpack
+   *  @param bodyTop - the payload to put in the top of the body of a flatpack
+   *  @param bodyBottom - the payload to put in the bottom of the body of a flatpack
    *  @param header_menu - the JSON that describes a navigation at the top of the page
    *  @param footer_menu - the JSON that describes a navigation at the bottom of the page
    *  @param bdpTitle - The page title of the entity business profile pages
@@ -1904,9 +1904,16 @@ public class CentralIndex
    *  @param addBusinessButtonText - The text used in the 'Add your business' button
    *  @param twitterUrl - Twitter link
    *  @param facebookUrl - Facebook link
+   *  @param copyright - Copyright message
+   *  @param advertUpgradeActive - whether upgrade message is displayed on this Flatpack
+   *  @param advertUpgradePrice - the cost of upgrading
+   *  @param advertUpgradeMaxTags - the number of tags upgrading gives you
+   *  @param advertUpgradeMaxLocations - the number of locations upgrading gives you
+   *  @param advertUpgradeContractLength - the length of the contract (days)
+   *  @param advertUpgradeRefId - a unique reference for the upgrade
    *  @return - the data from the api
   */
-  public String postFlatpack( String flatpack_id, String domainName, String flatpackName, String less, String language, String country, String mapsType, String mapKey, String analyticsHTML, String searchFormShowOn, String searchFormShowKeywordsBox, String searchFormShowLocationBox, String searchFormKeywordsAutoComplete, String searchFormLocationsAutoComplete, String searchFormDefaultLocation, String searchFormPlaceholderKeywords, String searchFormPlaceholderLocation, String searchFormKeywordsLabel, String searchFormLocationLabel, String cannedLinksHeader, String homepageTitle, String homepageDescription, String homepageIntroTitle, String homepageIntroText, String adblockHeader, String adblock728x90, String adblock468x60, String header_menu, String footer_menu, String bdpTitle, String bdpDescription, String bdpAds, String serpTitle, String serpDescription, String serpNumberResults, String serpNumberAdverts, String serpAds, String cookiePolicyUrl, String cookiePolicyNotice, String addBusinessButtonText, String twitterUrl, String facebookUrl) {
+  public String postFlatpack( String flatpack_id, String domainName, String flatpackName, String less, String language, String country, String mapsType, String mapKey, String searchFormShowOn, String searchFormShowKeywordsBox, String searchFormShowLocationBox, String searchFormKeywordsAutoComplete, String searchFormLocationsAutoComplete, String searchFormDefaultLocation, String searchFormPlaceholderKeywords, String searchFormPlaceholderLocation, String searchFormKeywordsLabel, String searchFormLocationLabel, String cannedLinksHeader, String homepageTitle, String homepageDescription, String homepageIntroTitle, String homepageIntroText, String head, String adblock, String bodyTop, String bodyBottom, String header_menu, String footer_menu, String bdpTitle, String bdpDescription, String bdpAds, String serpTitle, String serpDescription, String serpNumberResults, String serpNumberAdverts, String serpAds, String cookiePolicyUrl, String cookiePolicyNotice, String addBusinessButtonText, String twitterUrl, String facebookUrl, String copyright, String advertUpgradeActive, String advertUpgradePrice, String advertUpgradeMaxTags, String advertUpgradeMaxLocations, String advertUpgradeContractLength, String advertUpgradeRefId) {
     Hashtable p = new Hashtable();
     p.Add("flatpack_id",flatpack_id);
     p.Add("domainName",domainName);
@@ -1916,7 +1923,6 @@ public class CentralIndex
     p.Add("country",country);
     p.Add("mapsType",mapsType);
     p.Add("mapKey",mapKey);
-    p.Add("analyticsHTML",analyticsHTML);
     p.Add("searchFormShowOn",searchFormShowOn);
     p.Add("searchFormShowKeywordsBox",searchFormShowKeywordsBox);
     p.Add("searchFormShowLocationBox",searchFormShowLocationBox);
@@ -1932,9 +1938,10 @@ public class CentralIndex
     p.Add("homepageDescription",homepageDescription);
     p.Add("homepageIntroTitle",homepageIntroTitle);
     p.Add("homepageIntroText",homepageIntroText);
-    p.Add("adblockHeader",adblockHeader);
-    p.Add("adblock728x90",adblock728x90);
-    p.Add("adblock468x60",adblock468x60);
+    p.Add("head",head);
+    p.Add("adblock",adblock);
+    p.Add("bodyTop",bodyTop);
+    p.Add("bodyBottom",bodyBottom);
     p.Add("header_menu",header_menu);
     p.Add("footer_menu",footer_menu);
     p.Add("bdpTitle",bdpTitle);
@@ -1950,6 +1957,13 @@ public class CentralIndex
     p.Add("addBusinessButtonText",addBusinessButtonText);
     p.Add("twitterUrl",twitterUrl);
     p.Add("facebookUrl",facebookUrl);
+    p.Add("copyright",copyright);
+    p.Add("advertUpgradeActive",advertUpgradeActive);
+    p.Add("advertUpgradePrice",advertUpgradePrice);
+    p.Add("advertUpgradeMaxTags",advertUpgradeMaxTags);
+    p.Add("advertUpgradeMaxLocations",advertUpgradeMaxLocations);
+    p.Add("advertUpgradeContractLength",advertUpgradeContractLength);
+    p.Add("advertUpgradeRefId",advertUpgradeRefId);
     return doCurl("POST","/flatpack",p);
   }
 
