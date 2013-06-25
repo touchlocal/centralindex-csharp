@@ -332,9 +332,11 @@ public class CentralIndex
    *  @param nokia_country_code
    *  @param twilio_sms
    *  @param twilio_phone
+   *  @param currency_symbol - the symbol of this country's currency
+   *  @param currency_symbol_html - the html version of the symbol of this country's currency
    *  @return - the data from the api
   */
-  public String postCountry( String country_id, String name, String synonyms, String continentName, String continent, String geonameId, String dbpediaURL, String freebaseURL, String population, String currencyCode, String languages, String areaInSqKm, String capital, String east, String west, String north, String south, String claimPrice, String claimMethods, String nokia_country_code, String twilio_sms, String twilio_phone) {
+  public String postCountry( String country_id, String name, String synonyms, String continentName, String continent, String geonameId, String dbpediaURL, String freebaseURL, String population, String currencyCode, String languages, String areaInSqKm, String capital, String east, String west, String north, String south, String claimPrice, String claimMethods, String nokia_country_code, String twilio_sms, String twilio_phone, String currency_symbol, String currency_symbol_html) {
     Hashtable p = new Hashtable();
     p.Add("country_id",country_id);
     p.Add("name",name);
@@ -358,6 +360,8 @@ public class CentralIndex
     p.Add("nokia_country_code",nokia_country_code);
     p.Add("twilio_sms",twilio_sms);
     p.Add("twilio_phone",twilio_phone);
+    p.Add("currency_symbol",currency_symbol);
+    p.Add("currency_symbol_html",currency_symbol_html);
     return doCurl("POST","/country",p);
   }
 
@@ -3199,9 +3203,11 @@ public class CentralIndex
    *  @param api_url
    *  @param api_params
    *  @param active
+   *  @param reseller_masheryid
+   *  @param description
    *  @return - the data from the api
   */
-  public String postTraction( String traction_id, String trigger_type, String action_type, String country, String email_addresses, String title, String body, String api_method, String api_url, String api_params, String active) {
+  public String postTraction( String traction_id, String trigger_type, String action_type, String country, String email_addresses, String title, String body, String api_method, String api_url, String api_params, String active, String reseller_masheryid, String description) {
     Hashtable p = new Hashtable();
     p.Add("traction_id",traction_id);
     p.Add("trigger_type",trigger_type);
@@ -3214,6 +3220,8 @@ public class CentralIndex
     p.Add("api_url",api_url);
     p.Add("api_params",api_params);
     p.Add("active",active);
+    p.Add("reseller_masheryid",reseller_masheryid);
+    p.Add("description",description);
     return doCurl("POST","/traction",p);
   }
 
