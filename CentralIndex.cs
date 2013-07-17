@@ -3403,10 +3403,11 @@ public class CentralIndex
    *  @param api_params
    *  @param active
    *  @param reseller_masheryid
+   *  @param publisher_masheryid
    *  @param description
    *  @return - the data from the api
   */
-  public String postTraction( String traction_id, String trigger_type, String action_type, String country, String email_addresses, String title, String body, String api_method, String api_url, String api_params, String active, String reseller_masheryid, String description) {
+  public String postTraction( String traction_id, String trigger_type, String action_type, String country, String email_addresses, String title, String body, String api_method, String api_url, String api_params, String active, String reseller_masheryid, String publisher_masheryid, String description) {
     Hashtable p = new Hashtable();
     p.Add("traction_id",traction_id);
     p.Add("trigger_type",trigger_type);
@@ -3420,6 +3421,7 @@ public class CentralIndex
     p.Add("api_params",api_params);
     p.Add("active",active);
     p.Add("reseller_masheryid",reseller_masheryid);
+    p.Add("publisher_masheryid",publisher_masheryid);
     p.Add("description",description);
     return doCurl("POST","/traction",p);
   }
