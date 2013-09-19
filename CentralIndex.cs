@@ -2182,6 +2182,8 @@ public class CentralIndex
    *  @param serpNumberResults - The number of results per search page
    *  @param serpNumberAdverts - The number of adverts to show on the first search page
    *  @param serpAds - The block of HTML/JS that renders Ads on Serps
+   *  @param serpTitleNoWhat - The text to display in the title for where only searches
+   *  @param serpDescriptionNoWhat - The text to display in the description for where only searches
    *  @param cookiePolicyUrl - The cookie policy url of the flatpack
    *  @param cookiePolicyNotice - Whether to show the cookie policy on this flatpack
    *  @param addBusinessButtonText - The text used in the 'Add your business' button
@@ -2201,7 +2203,7 @@ public class CentralIndex
    *  @param denyIndexing - Whether to noindex a flatpack
    *  @return - the data from the api
   */
-  public String postFlatpack( String flatpack_id, String domainName, String stub, String flatpackName, String less, String language, String country, String mapsType, String mapKey, String searchFormShowOn, String searchFormShowKeywordsBox, String searchFormShowLocationBox, String searchFormKeywordsAutoComplete, String searchFormLocationsAutoComplete, String searchFormDefaultLocation, String searchFormPlaceholderKeywords, String searchFormPlaceholderLocation, String searchFormKeywordsLabel, String searchFormLocationLabel, String cannedLinksHeader, String homepageTitle, String homepageDescription, String homepageIntroTitle, String homepageIntroText, String head, String adblock, String bodyTop, String bodyBottom, String header_menu, String header_menu_bottom, String footer_menu, String bdpTitle, String bdpDescription, String bdpAds, String serpTitle, String serpDescription, String serpNumberResults, String serpNumberAdverts, String serpAds, String cookiePolicyUrl, String cookiePolicyNotice, String addBusinessButtonText, String twitterUrl, String facebookUrl, String copyright, String advertUpgradeActive, String advertUpgradePrice, String advertUpgradeMaxTags, String advertUpgradeMaxLocations, String advertUpgradeContractLength, String advertUpgradeRefId, String phoneReveal, String loginLinkText, String contextLocationId, String addBusinessButtonPosition, String denyIndexing) {
+  public String postFlatpack( String flatpack_id, String domainName, String stub, String flatpackName, String less, String language, String country, String mapsType, String mapKey, String searchFormShowOn, String searchFormShowKeywordsBox, String searchFormShowLocationBox, String searchFormKeywordsAutoComplete, String searchFormLocationsAutoComplete, String searchFormDefaultLocation, String searchFormPlaceholderKeywords, String searchFormPlaceholderLocation, String searchFormKeywordsLabel, String searchFormLocationLabel, String cannedLinksHeader, String homepageTitle, String homepageDescription, String homepageIntroTitle, String homepageIntroText, String head, String adblock, String bodyTop, String bodyBottom, String header_menu, String header_menu_bottom, String footer_menu, String bdpTitle, String bdpDescription, String bdpAds, String serpTitle, String serpDescription, String serpNumberResults, String serpNumberAdverts, String serpAds, String serpTitleNoWhat, String serpDescriptionNoWhat, String cookiePolicyUrl, String cookiePolicyNotice, String addBusinessButtonText, String twitterUrl, String facebookUrl, String copyright, String advertUpgradeActive, String advertUpgradePrice, String advertUpgradeMaxTags, String advertUpgradeMaxLocations, String advertUpgradeContractLength, String advertUpgradeRefId, String phoneReveal, String loginLinkText, String contextLocationId, String addBusinessButtonPosition, String denyIndexing) {
     Hashtable p = new Hashtable();
     p.Add("flatpack_id",flatpack_id);
     p.Add("domainName",domainName);
@@ -2242,6 +2244,8 @@ public class CentralIndex
     p.Add("serpNumberResults",serpNumberResults);
     p.Add("serpNumberAdverts",serpNumberAdverts);
     p.Add("serpAds",serpAds);
+    p.Add("serpTitleNoWhat",serpTitleNoWhat);
+    p.Add("serpDescriptionNoWhat",serpDescriptionNoWhat);
     p.Add("cookiePolicyUrl",cookiePolicyUrl);
     p.Add("cookiePolicyNotice",cookiePolicyNotice);
     p.Add("addBusinessButtonText",addBusinessButtonText);
@@ -2796,17 +2800,19 @@ public class CentralIndex
    *  @param company_name
    *  @param latitude
    *  @param longitude
+   *  @param postcode
    *  @param country
    *  @param name_strictness
    *  @param location_strictness
    *  @return - the data from the api
   */
-  public String getMatchByphone( String phone, String company_name, String latitude, String longitude, String country, String name_strictness, String location_strictness) {
+  public String getMatchByphone( String phone, String company_name, String latitude, String longitude, String postcode, String country, String name_strictness, String location_strictness) {
     Hashtable p = new Hashtable();
     p.Add("phone",phone);
     p.Add("company_name",company_name);
     p.Add("latitude",latitude);
     p.Add("longitude",longitude);
+    p.Add("postcode",postcode);
     p.Add("country",country);
     p.Add("name_strictness",name_strictness);
     p.Add("location_strictness",location_strictness);
@@ -2914,11 +2920,13 @@ public class CentralIndex
    * Perform the whole PTB process on the supplied entity
    *
    *  @param entity_id
+   *  @param destructive
    *  @return - the data from the api
   */
-  public String getPtbAll( String entity_id) {
+  public String getPtbAll( String entity_id, String destructive) {
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
+    p.Add("destructive",destructive);
     return doCurl("GET","/ptb/all",p);
   }
 
@@ -2945,12 +2953,14 @@ public class CentralIndex
    *
    *  @param entity_id
    *  @param module
+   *  @param destructive
    *  @return - the data from the api
   */
-  public String getPtbModule( String entity_id, String module) {
+  public String getPtbModule( String entity_id, String module, String destructive) {
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
     p.Add("module",module);
+    p.Add("destructive",destructive);
     return doCurl("GET","/ptb/module",p);
   }
 
