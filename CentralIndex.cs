@@ -2508,12 +2508,14 @@ public class CentralIndex
    *
    *  @param from_date
    *  @param to_date
+   *  @param country_id
    *  @return - the data from the api
   */
-  public String getHeartbeatBy_date( String from_date, String to_date) {
+  public String getHeartbeatBy_date( String from_date, String to_date, String country_id) {
     Hashtable p = new Hashtable();
     p.Add("from_date",from_date);
     p.Add("to_date",to_date);
+    p.Add("country_id",country_id);
     return doCurl("GET","/heartbeat/by_date",p);
   }
 
