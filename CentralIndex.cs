@@ -102,7 +102,7 @@ public class CentralIndex
    *
    *  @param entity_id - The entity to pull
    *  @param entity_name - The entity name this entry refers to
-   *  @param type - The activity type
+   *  @param type - The activity type. add, claim, special offer, image, video, description, testimonial
    *  @param country - The country for the activity
    *  @param longitude - The longitude for teh activity
    *  @param latitude - The latitude for teh activity
@@ -498,7 +498,6 @@ public class CentralIndex
    *  @param south
    *  @param claimPrice
    *  @param claimMethods
-   *  @param nokia_country_code
    *  @param twilio_sms
    *  @param twilio_phone
    *  @param twilio_voice
@@ -512,7 +511,7 @@ public class CentralIndex
    *  @param iso_3166_numeric
    *  @return - the data from the api
   */
-  public String postCountry( String country_id, String name, String synonyms, String continentName, String continent, String geonameId, String dbpediaURL, String freebaseURL, String population, String currencyCode, String languages, String areaInSqKm, String capital, String east, String west, String north, String south, String claimPrice, String claimMethods, String nokia_country_code, String twilio_sms, String twilio_phone, String twilio_voice, String currency_symbol, String currency_symbol_html, String postcodeLookupActive, String addressFields, String addressMatching, String dateFormat, String iso_3166_alpha_3, String iso_3166_numeric) {
+  public String postCountry( String country_id, String name, String synonyms, String continentName, String continent, String geonameId, String dbpediaURL, String freebaseURL, String population, String currencyCode, String languages, String areaInSqKm, String capital, String east, String west, String north, String south, String claimPrice, String claimMethods, String twilio_sms, String twilio_phone, String twilio_voice, String currency_symbol, String currency_symbol_html, String postcodeLookupActive, String addressFields, String addressMatching, String dateFormat, String iso_3166_alpha_3, String iso_3166_numeric) {
     Hashtable p = new Hashtable();
     p.Add("country_id",country_id);
     p.Add("name",name);
@@ -533,7 +532,6 @@ public class CentralIndex
     p.Add("south",south);
     p.Add("claimPrice",claimPrice);
     p.Add("claimMethods",claimMethods);
-    p.Add("nokia_country_code",nokia_country_code);
     p.Add("twilio_sms",twilio_sms);
     p.Add("twilio_phone",twilio_phone);
     p.Add("twilio_voice",twilio_voice);
@@ -3384,15 +3382,19 @@ public class CentralIndex
    *  @param gen_id - The gen_id for the item being reported
    *  @param signal_type - The signal that is to be reported e.g. wrong
    *  @param data_type - The type of data being reported
+   *  @param inactive_reason - The reason for making the entity inactive
+   *  @param inactive_description - A description to accompany the inactive reasoning
    *  @return - the data from the api
   */
-  public String postSignal( String entity_id, String country, String gen_id, String signal_type, String data_type) {
+  public String postSignal( String entity_id, String country, String gen_id, String signal_type, String data_type, String inactive_reason, String inactive_description) {
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
     p.Add("country",country);
     p.Add("gen_id",gen_id);
     p.Add("signal_type",signal_type);
     p.Add("data_type",data_type);
+    p.Add("inactive_reason",inactive_reason);
+    p.Add("inactive_description",inactive_description);
     return doCurl("POST","/signal",p);
   }
 
