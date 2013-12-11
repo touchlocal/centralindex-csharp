@@ -3457,10 +3457,9 @@ public class CentralIndex
    *  @param seed_masheryid
    *  @param supplier_masheryid
    *  @param country
-   *  @param reseller_masheryid
    *  @return - the data from the api
   */
-  public String postSyndicationCreate( String syndication_type, String publisher_id, String expiry_date, String entity_id, String group_id, String seed_masheryid, String supplier_masheryid, String country, String reseller_masheryid) {
+  public String postSyndicationCreate( String syndication_type, String publisher_id, String expiry_date, String entity_id, String group_id, String seed_masheryid, String supplier_masheryid, String country) {
     Hashtable p = new Hashtable();
     p.Add("syndication_type",syndication_type);
     p.Add("publisher_id",publisher_id);
@@ -3470,7 +3469,6 @@ public class CentralIndex
     p.Add("seed_masheryid",seed_masheryid);
     p.Add("supplier_masheryid",supplier_masheryid);
     p.Add("country",country);
-    p.Add("reseller_masheryid",reseller_masheryid);
     return doCurl("POST","/syndication/create",p);
   }
 
