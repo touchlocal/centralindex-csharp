@@ -2550,12 +2550,6 @@ public class CentralIndex
    *  @param twitterUrl - Twitter link
    *  @param facebookUrl - Facebook link
    *  @param copyright - Copyright message
-   *  @param advertUpgradeActive - whether upgrade message is displayed on this Flatpack
-   *  @param advertUpgradePrice - the cost of upgrading
-   *  @param advertUpgradeMaxTags - the number of tags upgrading gives you
-   *  @param advertUpgradeMaxLocations - the number of locations upgrading gives you
-   *  @param advertUpgradeContractLength - the length of the contract (days)
-   *  @param advertUpgradeRefId - a unique reference for the upgrade
    *  @param phoneReveal - record phone number reveal
    *  @param loginLinkText - the link text for the Login link
    *  @param contextLocationId - The location ID to use as the context for searches on this flatpack
@@ -2567,7 +2561,7 @@ public class CentralIndex
    *  @param products - A Collection of Central Index products the flatpack is allowed to sell
    *  @return - the data from the api
   */
-  public String postFlatpack( String flatpack_id, String domainName, String stub, String flatpackName, String less, String language, String country, String mapsType, String mapKey, String searchFormShowOn, String searchFormShowKeywordsBox, String searchFormShowLocationBox, String searchFormKeywordsAutoComplete, String searchFormLocationsAutoComplete, String searchFormDefaultLocation, String searchFormPlaceholderKeywords, String searchFormPlaceholderLocation, String searchFormKeywordsLabel, String searchFormLocationLabel, String cannedLinksHeader, String homepageTitle, String homepageDescription, String homepageIntroTitle, String homepageIntroText, String head, String adblock, String bodyTop, String bodyBottom, String header_menu, String header_menu_bottom, String footer_menu, String bdpTitle, String bdpDescription, String bdpAds, String serpTitle, String serpDescription, String serpNumberResults, String serpNumberAdverts, String serpAds, String serpTitleNoWhat, String serpDescriptionNoWhat, String cookiePolicyUrl, String cookiePolicyNotice, String addBusinessButtonText, String twitterUrl, String facebookUrl, String copyright, String advertUpgradeActive, String advertUpgradePrice, String advertUpgradeMaxTags, String advertUpgradeMaxLocations, String advertUpgradeContractLength, String advertUpgradeRefId, String phoneReveal, String loginLinkText, String contextLocationId, String addBusinessButtonPosition, String denyIndexing, String contextRadius, String activityStream, String activityStreamSize, String products) {
+  public String postFlatpack( String flatpack_id, String domainName, String stub, String flatpackName, String less, String language, String country, String mapsType, String mapKey, String searchFormShowOn, String searchFormShowKeywordsBox, String searchFormShowLocationBox, String searchFormKeywordsAutoComplete, String searchFormLocationsAutoComplete, String searchFormDefaultLocation, String searchFormPlaceholderKeywords, String searchFormPlaceholderLocation, String searchFormKeywordsLabel, String searchFormLocationLabel, String cannedLinksHeader, String homepageTitle, String homepageDescription, String homepageIntroTitle, String homepageIntroText, String head, String adblock, String bodyTop, String bodyBottom, String header_menu, String header_menu_bottom, String footer_menu, String bdpTitle, String bdpDescription, String bdpAds, String serpTitle, String serpDescription, String serpNumberResults, String serpNumberAdverts, String serpAds, String serpTitleNoWhat, String serpDescriptionNoWhat, String cookiePolicyUrl, String cookiePolicyNotice, String addBusinessButtonText, String twitterUrl, String facebookUrl, String copyright, String phoneReveal, String loginLinkText, String contextLocationId, String addBusinessButtonPosition, String denyIndexing, String contextRadius, String activityStream, String activityStreamSize, String products) {
     Hashtable p = new Hashtable();
     p.Add("flatpack_id",flatpack_id);
     p.Add("domainName",domainName);
@@ -2616,12 +2610,6 @@ public class CentralIndex
     p.Add("twitterUrl",twitterUrl);
     p.Add("facebookUrl",facebookUrl);
     p.Add("copyright",copyright);
-    p.Add("advertUpgradeActive",advertUpgradeActive);
-    p.Add("advertUpgradePrice",advertUpgradePrice);
-    p.Add("advertUpgradeMaxTags",advertUpgradeMaxTags);
-    p.Add("advertUpgradeMaxLocations",advertUpgradeMaxLocations);
-    p.Add("advertUpgradeContractLength",advertUpgradeContractLength);
-    p.Add("advertUpgradeRefId",advertUpgradeRefId);
     p.Add("phoneReveal",phoneReveal);
     p.Add("loginLinkText",loginLinkText);
     p.Add("contextLocationId",contextLocationId);
@@ -2748,6 +2736,21 @@ public class CentralIndex
 
 
   /**
+   * Remove a canned link to an existing flatpack site.
+   *
+   *  @param flatpack_id - the id of the flatpack to delete
+   *  @param gen_id - the id of the canned link to remove
+   *  @return - the data from the api
+  */
+  public String deleteFlatpackLink( String flatpack_id, String gen_id) {
+    Hashtable p = new Hashtable();
+    p.Add("flatpack_id",flatpack_id);
+    p.Add("gen_id",gen_id);
+    return doCurl("DELETE","/flatpack/link",p);
+  }
+
+
+  /**
    * Add a canned link to an existing flatpack site.
    *
    *  @param flatpack_id - the id of the flatpack to delete
@@ -2763,21 +2766,6 @@ public class CentralIndex
     p.Add("location",location);
     p.Add("linkText",linkText);
     return doCurl("POST","/flatpack/link",p);
-  }
-
-
-  /**
-   * Remove a canned link to an existing flatpack site.
-   *
-   *  @param flatpack_id - the id of the flatpack to delete
-   *  @param gen_id - the id of the canned link to remove
-   *  @return - the data from the api
-  */
-  public String deleteFlatpackLink( String flatpack_id, String gen_id) {
-    Hashtable p = new Hashtable();
-    p.Add("flatpack_id",flatpack_id);
-    p.Add("gen_id",gen_id);
-    return doCurl("DELETE","/flatpack/link",p);
   }
 
 
@@ -2825,19 +2813,6 @@ public class CentralIndex
 
 
   /**
-   * Delete a group with a specified group_id
-   *
-   *  @param group_id
-   *  @return - the data from the api
-  */
-  public String deleteGroup( String group_id) {
-    Hashtable p = new Hashtable();
-    p.Add("group_id",group_id);
-    return doCurl("DELETE","/group",p);
-  }
-
-
-  /**
    * Returns group that matches a given group id
    *
    *  @param group_id
@@ -2847,6 +2822,19 @@ public class CentralIndex
     Hashtable p = new Hashtable();
     p.Add("group_id",group_id);
     return doCurl("GET","/group",p);
+  }
+
+
+  /**
+   * Delete a group with a specified group_id
+   *
+   *  @param group_id
+   *  @return - the data from the api
+  */
+  public String deleteGroup( String group_id) {
+    Hashtable p = new Hashtable();
+    p.Add("group_id",group_id);
+    return doCurl("DELETE","/group",p);
   }
 
 
@@ -2975,6 +2963,19 @@ public class CentralIndex
 
 
   /**
+   * Get an ingest job from the collection
+   *
+   *  @param job_id
+   *  @return - the data from the api
+  */
+  public String getIngest_job( String job_id) {
+    Hashtable p = new Hashtable();
+    p.Add("job_id",job_id);
+    return doCurl("GET","/ingest_job",p);
+  }
+
+
+  /**
    * Add a ingest job to the collection
    *
    *  @param description
@@ -2986,19 +2987,6 @@ public class CentralIndex
     p.Add("description",description);
     p.Add("category_type",category_type);
     return doCurl("POST","/ingest_job",p);
-  }
-
-
-  /**
-   * Get an ingest job from the collection
-   *
-   *  @param job_id
-   *  @return - the data from the api
-  */
-  public String getIngest_job( String job_id) {
-    Hashtable p = new Hashtable();
-    p.Add("job_id",job_id);
-    return doCurl("GET","/ingest_job",p);
   }
 
 
@@ -3033,6 +3021,19 @@ public class CentralIndex
     Hashtable p = new Hashtable();
     p.Add("flush",flush);
     return doCurl("GET","/ingest_queue",p);
+  }
+
+
+  /**
+   * Read a location with the supplied ID in the locations reference database.
+   *
+   *  @param location_id
+   *  @return - the data from the api
+  */
+  public String getLocation( String location_id) {
+    Hashtable p = new Hashtable();
+    p.Add("location_id",location_id);
+    return doCurl("GET","/location",p);
   }
 
 
@@ -3086,19 +3087,6 @@ public class CentralIndex
     p.Add("searchable_id",searchable_id);
     p.Add("searchable_ids",searchable_ids);
     return doCurl("POST","/location",p);
-  }
-
-
-  /**
-   * Read a location with the supplied ID in the locations reference database.
-   *
-   *  @param location_id
-   *  @return - the data from the api
-  */
-  public String getLocation( String location_id) {
-    Hashtable p = new Hashtable();
-    p.Add("location_id",location_id);
-    return doCurl("GET","/location",p);
   }
 
 
@@ -3363,19 +3351,6 @@ public class CentralIndex
 
 
   /**
-   * Allows a private object to be removed
-   *
-   *  @param private_object_id - The id of the private object to remove
-   *  @return - the data from the api
-  */
-  public String deletePrivate_object( String private_object_id) {
-    Hashtable p = new Hashtable();
-    p.Add("private_object_id",private_object_id);
-    return doCurl("DELETE","/private_object",p);
-  }
-
-
-  /**
    * With a known entity id, a private object can be added.
    *
    *  @param entity_id - The entity to associate the private object with
@@ -3387,6 +3362,19 @@ public class CentralIndex
     p.Add("entity_id",entity_id);
     p.Add("data",data);
     return doCurl("PUT","/private_object",p);
+  }
+
+
+  /**
+   * Allows a private object to be removed
+   *
+   *  @param private_object_id - The id of the private object to remove
+   *  @return - the data from the api
+  */
+  public String deletePrivate_object( String private_object_id) {
+    Hashtable p = new Hashtable();
+    p.Add("private_object_id",private_object_id);
+    return doCurl("DELETE","/private_object",p);
   }
 
 
@@ -3601,6 +3589,27 @@ public class CentralIndex
 
 
   /**
+   * Update/Add a publisher
+   *
+   *  @param publisher_id
+   *  @param country
+   *  @param name
+   *  @param description
+   *  @param active
+   *  @return - the data from the api
+  */
+  public String postPublisher( String publisher_id, String country, String name, String description, String active) {
+    Hashtable p = new Hashtable();
+    p.Add("publisher_id",publisher_id);
+    p.Add("country",country);
+    p.Add("name",name);
+    p.Add("description",description);
+    p.Add("active",active);
+    return doCurl("POST","/publisher",p);
+  }
+
+
+  /**
    * Returns publisher that matches a given publisher id
    *
    *  @param publisher_id
@@ -3623,27 +3632,6 @@ public class CentralIndex
     Hashtable p = new Hashtable();
     p.Add("publisher_id",publisher_id);
     return doCurl("DELETE","/publisher",p);
-  }
-
-
-  /**
-   * Update/Add a publisher
-   *
-   *  @param publisher_id
-   *  @param country
-   *  @param name
-   *  @param description
-   *  @param active
-   *  @return - the data from the api
-  */
-  public String postPublisher( String publisher_id, String country, String name, String description, String active) {
-    Hashtable p = new Hashtable();
-    p.Add("publisher_id",publisher_id);
-    p.Add("country",country);
-    p.Add("name",name);
-    p.Add("description",description);
-    p.Add("active",active);
-    return doCurl("POST","/publisher",p);
   }
 
 
@@ -4247,35 +4235,6 @@ public class CentralIndex
 
 
   /**
-   * Fetch token for update path
-   *
-   *  @param entity_id - The id of the entity being upgraded
-   *  @param portal_name - The name of the application that has initiated the login process, example: 'Your Local'
-   *  @param language - The language for the app
-   *  @param price - The price of the advert in the entities native currency
-   *  @param max_tags - The number of tags attached to the advert
-   *  @param max_locations - The number of locations attached to the advert
-   *  @param contract_length - The number of days from the initial sale date that the contract is valid for
-   *  @param ref_id - The campaign or reference id
-   *  @param flatpack_id - The id of the flatpack site where the request originated
-   *  @return - the data from the api
-  */
-  public String getTokenUpgrade( String entity_id, String portal_name, String language, String price, String max_tags, String max_locations, String contract_length, String ref_id, String flatpack_id) {
-    Hashtable p = new Hashtable();
-    p.Add("entity_id",entity_id);
-    p.Add("portal_name",portal_name);
-    p.Add("language",language);
-    p.Add("price",price);
-    p.Add("max_tags",max_tags);
-    p.Add("max_locations",max_locations);
-    p.Add("contract_length",contract_length);
-    p.Add("ref_id",ref_id);
-    p.Add("flatpack_id",flatpack_id);
-    return doCurl("GET","/token/upgrade",p);
-  }
-
-
-  /**
    * The JaroWinklerDistance between two entities postal address objects
    *
    *  @param first_entity_id - The entity id of the first entity to be used in the postal address difference
@@ -4295,15 +4254,15 @@ public class CentralIndex
    *
    *  @param method - The method e.g. POST
    *  @param path - The relative api call e.g. /entity/phone
-   *  @param curl_data - Multiple lines of data e.g. entity_id=123456&number=07731309555
+   *  @param filedata - A tab separated file for ingest
    *  @param email - Response email address e.g. dave@fender.com
    *  @return - the data from the api
   */
-  public String postToolsCurl( String method, String path, String curl_data, String email) {
+  public String postToolsCurl( String method, String path, String filedata, String email) {
     Hashtable p = new Hashtable();
     p.Add("method",method);
     p.Add("path",path);
-    p.Add("curl_data",curl_data);
+    p.Add("filedata",filedata);
     p.Add("email",email);
     return doCurl("POST","/tools/curl",p);
   }
