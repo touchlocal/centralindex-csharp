@@ -1353,13 +1353,15 @@ public class CentralIndex
    *  @param entity_id
    *  @param headline
    *  @param body
+   *  @param gen_id
    *  @return - the data from the api
   */
-  public String postEntityDescription( String entity_id, String headline, String body) {
+  public String postEntityDescription( String entity_id, String headline, String body, String gen_id) {
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
     p.Add("headline",headline);
     p.Add("body",body);
+    p.Add("gen_id",gen_id);
     return doCurl("POST","/entity/description",p);
   }
 
@@ -2443,14 +2445,16 @@ public class CentralIndex
    *  @param website_url
    *  @param display_url
    *  @param website_description
+   *  @param gen_id
    *  @return - the data from the api
   */
-  public String postEntityWebsite( String entity_id, String website_url, String display_url, String website_description) {
+  public String postEntityWebsite( String entity_id, String website_url, String display_url, String website_description, String gen_id) {
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
     p.Add("website_url",website_url);
     p.Add("display_url",display_url);
     p.Add("website_description",website_description);
+    p.Add("gen_id",gen_id);
     return doCurl("POST","/entity/website",p);
   }
 
