@@ -2071,6 +2071,7 @@ public class CentralIndex
    * Search for matching entities, ordered by nearness
    *
    *  @param what - What to get results for. E.g. Plumber e.g. plumber
+   *  @param country - The country to fetch results for e.g. gb
    *  @param per_page - Number of results returned per page
    *  @param page - Which page number to retrieve
    *  @param language - An ISO compatible language code, E.g. en
@@ -2078,9 +2079,10 @@ public class CentralIndex
    *  @param longitude - The decimal longitude of the centre point of the search
    *  @return - the data from the api
   */
-  public String getEntitySearchWhatBynearest( String what, String per_page, String page, String language, String latitude, String longitude) {
+  public String getEntitySearchWhatBynearest( String what, String country, String per_page, String page, String language, String latitude, String longitude) {
     Hashtable p = new Hashtable();
     p.Add("what",what);
+    p.Add("country",country);
     p.Add("per_page",per_page);
     p.Add("page",page);
     p.Add("language",language);
@@ -2171,6 +2173,7 @@ public class CentralIndex
    * Search for entities matching the supplied 'who', ordered by nearness
    *
    *  @param who - What to get results for. E.g. Plumber e.g. plumber
+   *  @param country - The country to fetch results for e.g. gb
    *  @param per_page - Number of results returned per page
    *  @param page - Which page number to retrieve
    *  @param language - An ISO compatible language code, E.g. en
@@ -2178,9 +2181,10 @@ public class CentralIndex
    *  @param longitude - The decimal longitude of the centre point of the search
    *  @return - the data from the api
   */
-  public String getEntitySearchWhoBynearest( String who, String per_page, String page, String language, String latitude, String longitude) {
+  public String getEntitySearchWhoBynearest( String who, String country, String per_page, String page, String language, String latitude, String longitude) {
     Hashtable p = new Hashtable();
     p.Add("who",who);
+    p.Add("country",country);
     p.Add("per_page",per_page);
     p.Add("page",page);
     p.Add("language",language);
