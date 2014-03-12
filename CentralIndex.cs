@@ -3765,15 +3765,17 @@ public class CentralIndex
    *  @param name
    *  @param description
    *  @param active
+   *  @param products
    *  @return - the data from the api
   */
-  public String postReseller( String reseller_id, String country, String name, String description, String active) {
+  public String postReseller( String reseller_id, String country, String name, String description, String active, String products) {
     Hashtable p = new Hashtable();
     p.Add("reseller_id",reseller_id);
     p.Add("country",country);
     p.Add("name",name);
     p.Add("description",description);
     p.Add("active",active);
+    p.Add("products",products);
     return doCurl("POST","/reseller",p);
   }
 
@@ -4334,9 +4336,10 @@ public class CentralIndex
    *  @param province
    *  @param postcode
    *  @param country
+   *  @param geocoder
    *  @return - the data from the api
   */
-  public String getToolsGeocode( String building_number, String address1, String address2, String address3, String district, String town, String county, String province, String postcode, String country) {
+  public String getToolsGeocode( String building_number, String address1, String address2, String address3, String district, String town, String county, String province, String postcode, String country, String geocoder) {
     Hashtable p = new Hashtable();
     p.Add("building_number",building_number);
     p.Add("address1",address1);
@@ -4348,6 +4351,7 @@ public class CentralIndex
     p.Add("province",province);
     p.Add("postcode",postcode);
     p.Add("country",country);
+    p.Add("geocoder",geocoder);
     return doCurl("GET","/tools/geocode",p);
   }
 
