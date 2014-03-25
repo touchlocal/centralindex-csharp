@@ -4100,11 +4100,15 @@ public class CentralIndex
    * Get all syndication log entries for a given entity id
    *
    *  @param entity_id
+   *  @param page
+   *  @param per_page
    *  @return - the data from the api
   */
-  public String getSyndication_logBy_entity_id( String entity_id) {
+  public String getSyndication_logBy_entity_id( String entity_id, String page, String per_page) {
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
+    p.Add("page",page);
+    p.Add("per_page",per_page);
     return doCurl("GET","/syndication_log/by_entity_id",p);
   }
 
