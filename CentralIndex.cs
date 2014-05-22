@@ -3553,9 +3553,13 @@ public class CentralIndex
    *  @param searchDescriptionNoWhere - Description of serps page when no where is specified
    *  @param searchIntroHeader - Introductory header
    *  @param searchIntroText - Introductory text
+   *  @param cookiePolicyShow - whether to show cookie policy
+   *  @param cookiePolicyUrl - url of cookie policy
+   *  @param twitterUrl - url of twitter feed
+   *  @param facebookUrl - url of facebook feed
    *  @return - the data from the api
   */
-  public String postMultipack( String multipack_id, String group_id, String domainName, String multipackName, String less, String country, String menuTop, String menuBottom, String language, String menuFooter, String searchNumberResults, String searchTitle, String searchDescription, String searchTitleNoWhere, String searchDescriptionNoWhere, String searchIntroHeader, String searchIntroText) {
+  public String postMultipack( String multipack_id, String group_id, String domainName, String multipackName, String less, String country, String menuTop, String menuBottom, String language, String menuFooter, String searchNumberResults, String searchTitle, String searchDescription, String searchTitleNoWhere, String searchDescriptionNoWhere, String searchIntroHeader, String searchIntroText, String cookiePolicyShow, String cookiePolicyUrl, String twitterUrl, String facebookUrl) {
     Hashtable p = new Hashtable();
     p.Add("multipack_id",multipack_id);
     p.Add("group_id",group_id);
@@ -3574,6 +3578,10 @@ public class CentralIndex
     p.Add("searchDescriptionNoWhere",searchDescriptionNoWhere);
     p.Add("searchIntroHeader",searchIntroHeader);
     p.Add("searchIntroText",searchIntroText);
+    p.Add("cookiePolicyShow",cookiePolicyShow);
+    p.Add("cookiePolicyUrl",cookiePolicyUrl);
+    p.Add("twitterUrl",twitterUrl);
+    p.Add("facebookUrl",facebookUrl);
     return doCurl("POST","/multipack",p);
   }
 
