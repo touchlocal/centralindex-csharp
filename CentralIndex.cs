@@ -3619,12 +3619,16 @@ public class CentralIndex
    *
    *  @param multipack_id - the unique id to search for
    *  @param filedata
+   *  @param mapPinOffsetX
+   *  @param mapPinOffsetY
    *  @return - the data from the api
   */
-  public String postMultipackMap_pin( String multipack_id, String filedata) {
+  public String postMultipackMap_pin( String multipack_id, String filedata, String mapPinOffsetX, String mapPinOffsetY) {
     Hashtable p = new Hashtable();
     p.Add("multipack_id",multipack_id);
     p.Add("filedata",filedata);
+    p.Add("mapPinOffsetX",mapPinOffsetX);
+    p.Add("mapPinOffsetY",mapPinOffsetY);
     return doCurl("POST","/multipack/map_pin",p);
   }
 
@@ -5657,11 +5661,13 @@ public class CentralIndex
    * Downgrade an existing user
    *
    *  @param user_id
+   *  @param user_type
    *  @return - the data from the api
   */
-  public String postUserDowngrade( String user_id) {
+  public String postUserDowngrade( String user_id, String user_type) {
     Hashtable p = new Hashtable();
     p.Add("user_id",user_id);
+    p.Add("user_type",user_type);
     return doCurl("POST","/user/downgrade",p);
   }
 
