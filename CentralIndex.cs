@@ -671,19 +671,6 @@ public class CentralIndex
 
 
   /**
-   * Get the contract log from the ID supplied
-   *
-   *  @param contract_log_id
-   *  @return - the data from the api
-  */
-  public String getContract_log( String contract_log_id) {
-    Hashtable p = new Hashtable();
-    p.Add("contract_log_id",contract_log_id);
-    return doCurl("GET","/contract_log",p);
-  }
-
-
-  /**
    * Creates a new contract log for a given contract
    *
    *  @param contract_id
@@ -705,6 +692,19 @@ public class CentralIndex
     p.Add("amount",amount);
     p.Add("currency",currency);
     return doCurl("POST","/contract_log",p);
+  }
+
+
+  /**
+   * Get the contract log from the ID supplied
+   *
+   *  @param contract_log_id
+   *  @return - the data from the api
+  */
+  public String getContract_log( String contract_log_id) {
+    Hashtable p = new Hashtable();
+    p.Add("contract_log_id",contract_log_id);
+    return doCurl("GET","/contract_log",p);
   }
 
 
@@ -906,11 +906,15 @@ public class CentralIndex
    * Allows a whole entity to be pulled from the datastore by its unique id
    *
    *  @param entity_id - The unique entity ID e.g. 379236608286720
+   *  @param domain
+   *  @param path
    *  @return - the data from the api
   */
-  public String getEntity( String entity_id) {
+  public String getEntity( String entity_id, String domain, String path) {
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
+    p.Add("domain",domain);
+    p.Add("path",path);
     return doCurl("GET","/entity",p);
   }
 
@@ -1409,21 +1413,6 @@ public class CentralIndex
 
 
   /**
-   * Allows a phone object to be reduced in confidence
-   *
-   *  @param entity_id
-   *  @param gen_id
-   *  @return - the data from the api
-  */
-  public String deleteEntityDocument( String entity_id, String gen_id) {
-    Hashtable p = new Hashtable();
-    p.Add("entity_id",entity_id);
-    p.Add("gen_id",gen_id);
-    return doCurl("DELETE","/entity/document",p);
-  }
-
-
-  /**
    * With a known entity id, an document object can be added.
    *
    *  @param entity_id
@@ -1437,6 +1426,21 @@ public class CentralIndex
     p.Add("name",name);
     p.Add("filedata",filedata);
     return doCurl("POST","/entity/document",p);
+  }
+
+
+  /**
+   * Allows a phone object to be reduced in confidence
+   *
+   *  @param entity_id
+   *  @param gen_id
+   *  @return - the data from the api
+  */
+  public String deleteEntityDocument( String entity_id, String gen_id) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("gen_id",gen_id);
+    return doCurl("DELETE","/entity/document",p);
   }
 
 
@@ -1473,6 +1477,21 @@ public class CentralIndex
 
 
   /**
+   * Allows an employee object to be reduced in confidence
+   *
+   *  @param entity_id
+   *  @param gen_id
+   *  @return - the data from the api
+  */
+  public String deleteEntityEmployee( String entity_id, String gen_id) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("gen_id",gen_id);
+    return doCurl("DELETE","/entity/employee",p);
+  }
+
+
+  /**
    * With a known entity id, an employee object can be added.
    *
    *  @param entity_id
@@ -1496,21 +1515,6 @@ public class CentralIndex
     p.Add("email",email);
     p.Add("phone_number",phone_number);
     return doCurl("POST","/entity/employee",p);
-  }
-
-
-  /**
-   * Allows an employee object to be reduced in confidence
-   *
-   *  @param entity_id
-   *  @param gen_id
-   *  @return - the data from the api
-  */
-  public String deleteEntityEmployee( String entity_id, String gen_id) {
-    Hashtable p = new Hashtable();
-    p.Add("entity_id",entity_id);
-    p.Add("gen_id",gen_id);
-    return doCurl("DELETE","/entity/employee",p);
   }
 
 
@@ -1596,6 +1600,21 @@ public class CentralIndex
 
 
   /**
+   * Allows a image object to be reduced in confidence
+   *
+   *  @param entity_id
+   *  @param gen_id
+   *  @return - the data from the api
+  */
+  public String deleteEntityImage( String entity_id, String gen_id) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("gen_id",gen_id);
+    return doCurl("DELETE","/entity/image",p);
+  }
+
+
+  /**
    * With a known entity id, a image object can be added.
    *
    *  @param entity_id
@@ -1609,21 +1628,6 @@ public class CentralIndex
     p.Add("filedata",filedata);
     p.Add("image_name",image_name);
     return doCurl("POST","/entity/image",p);
-  }
-
-
-  /**
-   * Allows a image object to be reduced in confidence
-   *
-   *  @param entity_id
-   *  @param gen_id
-   *  @return - the data from the api
-  */
-  public String deleteEntityImage( String entity_id, String gen_id) {
-    Hashtable p = new Hashtable();
-    p.Add("entity_id",entity_id);
-    p.Add("gen_id",gen_id);
-    return doCurl("DELETE","/entity/image",p);
   }
 
 
@@ -1691,6 +1695,21 @@ public class CentralIndex
 
 
   /**
+   * Allows a list description object to be reduced in confidence
+   *
+   *  @param gen_id
+   *  @param entity_id
+   *  @return - the data from the api
+  */
+  public String deleteEntityList( String gen_id, String entity_id) {
+    Hashtable p = new Hashtable();
+    p.Add("gen_id",gen_id);
+    p.Add("entity_id",entity_id);
+    return doCurl("DELETE","/entity/list",p);
+  }
+
+
+  /**
    * With a known entity id, a list description object can be added.
    *
    *  @param entity_id
@@ -1704,21 +1723,6 @@ public class CentralIndex
     p.Add("headline",headline);
     p.Add("body",body);
     return doCurl("POST","/entity/list",p);
-  }
-
-
-  /**
-   * Allows a list description object to be reduced in confidence
-   *
-   *  @param gen_id
-   *  @param entity_id
-   *  @return - the data from the api
-  */
-  public String deleteEntityList( String gen_id, String entity_id) {
-    Hashtable p = new Hashtable();
-    p.Add("gen_id",gen_id);
-    p.Add("entity_id",entity_id);
-    return doCurl("DELETE","/entity/list",p);
   }
 
 
@@ -1848,6 +1852,19 @@ public class CentralIndex
 
 
   /**
+   * With a known entity id, a opening times object can be removed.
+   *
+   *  @param entity_id - The id of the entity to edit
+   *  @return - the data from the api
+  */
+  public String deleteEntityOpening_times( String entity_id) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    return doCurl("DELETE","/entity/opening_times",p);
+  }
+
+
+  /**
    * With a known entity id, a opening times object can be added. Each day can be either 'closed' to indicate that the entity is closed that day, '24hour' to indicate that the entity is open all day or single/split time ranges can be supplied in 4-digit 24-hour format, such as '09001730' or '09001200,13001700' to indicate hours of opening.
    *
    *  @param entity_id - The id of the entity to edit
@@ -1875,19 +1892,6 @@ public class CentralIndex
     p.Add("closed",closed);
     p.Add("closed_public_holidays",closed_public_holidays);
     return doCurl("POST","/entity/opening_times",p);
-  }
-
-
-  /**
-   * With a known entity id, a opening times object can be removed.
-   *
-   *  @param entity_id - The id of the entity to edit
-   *  @return - the data from the api
-  */
-  public String deleteEntityOpening_times( String entity_id) {
-    Hashtable p = new Hashtable();
-    p.Add("entity_id",entity_id);
-    return doCurl("DELETE","/entity/opening_times",p);
   }
 
 
@@ -2040,9 +2044,11 @@ public class CentralIndex
    *  @param page
    *  @param country
    *  @param language
+   *  @param domain
+   *  @param path
    *  @return - the data from the api
   */
-  public String getEntitySearchByboundingbox( String latitude_1, String longitude_1, String latitude_2, String longitude_2, String per_page, String page, String country, String language) {
+  public String getEntitySearchByboundingbox( String latitude_1, String longitude_1, String latitude_2, String longitude_2, String per_page, String page, String country, String language, String domain, String path) {
     Hashtable p = new Hashtable();
     p.Add("latitude_1",latitude_1);
     p.Add("longitude_1",longitude_1);
@@ -2052,6 +2058,8 @@ public class CentralIndex
     p.Add("page",page);
     p.Add("country",country);
     p.Add("language",language);
+    p.Add("domain",domain);
+    p.Add("path",path);
     return doCurl("GET","/entity/search/byboundingbox",p);
   }
 
@@ -2066,9 +2074,11 @@ public class CentralIndex
    *  @param language - An ISO compatible language code, E.g. en
    *  @param latitude - The decimal latitude of the search context (optional)
    *  @param longitude - The decimal longitude of the search context (optional)
+   *  @param domain
+   *  @param path
    *  @return - the data from the api
   */
-  public String getEntitySearchBylocation( String where, String per_page, String page, String country, String language, String latitude, String longitude) {
+  public String getEntitySearchBylocation( String where, String per_page, String page, String country, String language, String latitude, String longitude, String domain, String path) {
     Hashtable p = new Hashtable();
     p.Add("where",where);
     p.Add("per_page",per_page);
@@ -2077,6 +2087,8 @@ public class CentralIndex
     p.Add("language",language);
     p.Add("latitude",latitude);
     p.Add("longitude",longitude);
+    p.Add("domain",domain);
+    p.Add("path",path);
     return doCurl("GET","/entity/search/bylocation",p);
   }
 
@@ -2092,9 +2104,11 @@ public class CentralIndex
    *  @param language - An ISO compatible language code, E.g. en
    *  @param latitude - The decimal latitude of the centre point of the search context
    *  @param longitude - The decimal longitude of the centre point of the search context
+   *  @param domain
+   *  @param path
    *  @return - the data from the api
   */
-  public String getEntitySearchGroupBylocation( String group_id, String where, String country, String per_page, String page, String language, String latitude, String longitude) {
+  public String getEntitySearchGroupBylocation( String group_id, String where, String country, String per_page, String page, String language, String latitude, String longitude, String domain, String path) {
     Hashtable p = new Hashtable();
     p.Add("group_id",group_id);
     p.Add("where",where);
@@ -2104,6 +2118,8 @@ public class CentralIndex
     p.Add("language",language);
     p.Add("latitude",latitude);
     p.Add("longitude",longitude);
+    p.Add("domain",domain);
+    p.Add("path",path);
     return doCurl("GET","/entity/search/group/bylocation",p);
   }
 
@@ -2118,9 +2134,11 @@ public class CentralIndex
    *  @param language - An ISO compatible language code, E.g. en
    *  @param latitude - The decimal latitude of the centre point of the search
    *  @param longitude - The decimal longitude of the centre point of the search
+   *  @param domain
+   *  @param path
    *  @return - the data from the api
   */
-  public String getEntitySearchGroupBynearest( String group_id, String country, String per_page, String page, String language, String latitude, String longitude) {
+  public String getEntitySearchGroupBynearest( String group_id, String country, String per_page, String page, String language, String latitude, String longitude, String domain, String path) {
     Hashtable p = new Hashtable();
     p.Add("group_id",group_id);
     p.Add("country",country);
@@ -2129,7 +2147,38 @@ public class CentralIndex
     p.Add("language",language);
     p.Add("latitude",latitude);
     p.Add("longitude",longitude);
+    p.Add("domain",domain);
+    p.Add("path",path);
     return doCurl("GET","/entity/search/group/bynearest",p);
+  }
+
+
+  /**
+   * Search for entities matching the supplied 'who', ordered by nearness
+   *
+   *  @param keyword - What to get results for. E.g. cafe e.g. cafe
+   *  @param country - The country to fetch results for e.g. gb
+   *  @param per_page - Number of results returned per page
+   *  @param page - Which page number to retrieve
+   *  @param language - An ISO compatible language code, E.g. en
+   *  @param latitude - The decimal latitude of the centre point of the search
+   *  @param longitude - The decimal longitude of the centre point of the search
+   *  @param domain
+   *  @param path
+   *  @return - the data from the api
+  */
+  public String getEntitySearchKeywordBynearest( String keyword, String country, String per_page, String page, String language, String latitude, String longitude, String domain, String path) {
+    Hashtable p = new Hashtable();
+    p.Add("keyword",keyword);
+    p.Add("country",country);
+    p.Add("per_page",per_page);
+    p.Add("page",page);
+    p.Add("language",language);
+    p.Add("latitude",latitude);
+    p.Add("longitude",longitude);
+    p.Add("domain",domain);
+    p.Add("path",path);
+    return doCurl("GET","/entity/search/keyword/bynearest",p);
   }
 
 
@@ -2141,15 +2190,19 @@ public class CentralIndex
    *  @param page - The page number to retrieve
    *  @param country - Which country to return results for. An ISO compatible country code, E.g. ie e.g. ie
    *  @param language - An ISO compatible language code, E.g. en
+   *  @param domain
+   *  @param path
    *  @return - the data from the api
   */
-  public String getEntitySearchWhat( String what, String per_page, String page, String country, String language) {
+  public String getEntitySearchWhat( String what, String per_page, String page, String country, String language, String domain, String path) {
     Hashtable p = new Hashtable();
     p.Add("what",what);
     p.Add("per_page",per_page);
     p.Add("page",page);
     p.Add("country",country);
     p.Add("language",language);
+    p.Add("domain",domain);
+    p.Add("path",path);
     return doCurl("GET","/entity/search/what",p);
   }
 
@@ -2166,9 +2219,11 @@ public class CentralIndex
    *  @param page
    *  @param country - A valid ISO 3166 country code e.g. ie
    *  @param language
+   *  @param domain
+   *  @param path
    *  @return - the data from the api
   */
-  public String getEntitySearchWhatByboundingbox( String what, String latitude_1, String longitude_1, String latitude_2, String longitude_2, String per_page, String page, String country, String language) {
+  public String getEntitySearchWhatByboundingbox( String what, String latitude_1, String longitude_1, String latitude_2, String longitude_2, String per_page, String page, String country, String language, String domain, String path) {
     Hashtable p = new Hashtable();
     p.Add("what",what);
     p.Add("latitude_1",latitude_1);
@@ -2179,6 +2234,8 @@ public class CentralIndex
     p.Add("page",page);
     p.Add("country",country);
     p.Add("language",language);
+    p.Add("domain",domain);
+    p.Add("path",path);
     return doCurl("GET","/entity/search/what/byboundingbox",p);
   }
 
@@ -2194,9 +2251,11 @@ public class CentralIndex
    *  @param language - An ISO compatible language code, E.g. en
    *  @param latitude - The decimal latitude of the search context (optional)
    *  @param longitude - The decimal longitude of the search context (optional)
+   *  @param domain
+   *  @param path
    *  @return - the data from the api
   */
-  public String getEntitySearchWhatBylocation( String what, String where, String per_page, String page, String country, String language, String latitude, String longitude) {
+  public String getEntitySearchWhatBylocation( String what, String where, String per_page, String page, String country, String language, String latitude, String longitude, String domain, String path) {
     Hashtable p = new Hashtable();
     p.Add("what",what);
     p.Add("where",where);
@@ -2206,6 +2265,8 @@ public class CentralIndex
     p.Add("language",language);
     p.Add("latitude",latitude);
     p.Add("longitude",longitude);
+    p.Add("domain",domain);
+    p.Add("path",path);
     return doCurl("GET","/entity/search/what/bylocation",p);
   }
 
@@ -2220,9 +2281,11 @@ public class CentralIndex
    *  @param language - An ISO compatible language code, E.g. en
    *  @param latitude - The decimal latitude of the centre point of the search
    *  @param longitude - The decimal longitude of the centre point of the search
+   *  @param domain
+   *  @param path
    *  @return - the data from the api
   */
-  public String getEntitySearchWhatBynearest( String what, String country, String per_page, String page, String language, String latitude, String longitude) {
+  public String getEntitySearchWhatBynearest( String what, String country, String per_page, String page, String language, String latitude, String longitude, String domain, String path) {
     Hashtable p = new Hashtable();
     p.Add("what",what);
     p.Add("country",country);
@@ -2231,6 +2294,8 @@ public class CentralIndex
     p.Add("language",language);
     p.Add("latitude",latitude);
     p.Add("longitude",longitude);
+    p.Add("domain",domain);
+    p.Add("path",path);
     return doCurl("GET","/entity/search/what/bynearest",p);
   }
 
@@ -2243,15 +2308,19 @@ public class CentralIndex
    *  @param page - What page number to retrieve
    *  @param country - Which country to return results for. An ISO compatible country code, E.g. ie e.g. ie
    *  @param language - An ISO compatible language code, E.g. en
+   *  @param domain
+   *  @param path
    *  @return - the data from the api
   */
-  public String getEntitySearchWho( String who, String per_page, String page, String country, String language) {
+  public String getEntitySearchWho( String who, String per_page, String page, String country, String language, String domain, String path) {
     Hashtable p = new Hashtable();
     p.Add("who",who);
     p.Add("per_page",per_page);
     p.Add("page",page);
     p.Add("country",country);
     p.Add("language",language);
+    p.Add("domain",domain);
+    p.Add("path",path);
     return doCurl("GET","/entity/search/who",p);
   }
 
@@ -2268,9 +2337,11 @@ public class CentralIndex
    *  @param page
    *  @param country
    *  @param language - An ISO compatible language code, E.g. en
+   *  @param domain
+   *  @param path
    *  @return - the data from the api
   */
-  public String getEntitySearchWhoByboundingbox( String who, String latitude_1, String longitude_1, String latitude_2, String longitude_2, String per_page, String page, String country, String language) {
+  public String getEntitySearchWhoByboundingbox( String who, String latitude_1, String longitude_1, String latitude_2, String longitude_2, String per_page, String page, String country, String language, String domain, String path) {
     Hashtable p = new Hashtable();
     p.Add("who",who);
     p.Add("latitude_1",latitude_1);
@@ -2281,6 +2352,8 @@ public class CentralIndex
     p.Add("page",page);
     p.Add("country",country);
     p.Add("language",language);
+    p.Add("domain",domain);
+    p.Add("path",path);
     return doCurl("GET","/entity/search/who/byboundingbox",p);
   }
 
@@ -2296,9 +2369,11 @@ public class CentralIndex
    *  @param latitude - The decimal latitude of the search context (optional)
    *  @param longitude - The decimal longitude of the search context (optional)
    *  @param language - An ISO compatible language code, E.g. en
+   *  @param domain
+   *  @param path
    *  @return - the data from the api
   */
-  public String getEntitySearchWhoBylocation( String who, String where, String per_page, String page, String country, String latitude, String longitude, String language) {
+  public String getEntitySearchWhoBylocation( String who, String where, String per_page, String page, String country, String latitude, String longitude, String language, String domain, String path) {
     Hashtable p = new Hashtable();
     p.Add("who",who);
     p.Add("where",where);
@@ -2308,6 +2383,8 @@ public class CentralIndex
     p.Add("latitude",latitude);
     p.Add("longitude",longitude);
     p.Add("language",language);
+    p.Add("domain",domain);
+    p.Add("path",path);
     return doCurl("GET","/entity/search/who/bylocation",p);
   }
 
@@ -2322,9 +2399,11 @@ public class CentralIndex
    *  @param language - An ISO compatible language code, E.g. en
    *  @param latitude - The decimal latitude of the centre point of the search
    *  @param longitude - The decimal longitude of the centre point of the search
+   *  @param domain
+   *  @param path
    *  @return - the data from the api
   */
-  public String getEntitySearchWhoBynearest( String who, String country, String per_page, String page, String language, String latitude, String longitude) {
+  public String getEntitySearchWhoBynearest( String who, String country, String per_page, String page, String language, String latitude, String longitude, String domain, String path) {
     Hashtable p = new Hashtable();
     p.Add("who",who);
     p.Add("country",country);
@@ -2333,6 +2412,8 @@ public class CentralIndex
     p.Add("language",language);
     p.Add("latitude",latitude);
     p.Add("longitude",longitude);
+    p.Add("domain",domain);
+    p.Add("path",path);
     return doCurl("GET","/entity/search/who/bynearest",p);
   }
 
@@ -2359,6 +2440,21 @@ public class CentralIndex
 
 
   /**
+   * Allows a social media object to be reduced in confidence
+   *
+   *  @param entity_id
+   *  @param gen_id
+   *  @return - the data from the api
+  */
+  public String deleteEntitySocialmedia( String entity_id, String gen_id) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("gen_id",gen_id);
+    return doCurl("DELETE","/entity/socialmedia",p);
+  }
+
+
+  /**
    * With a known entity id, a social media object can be added.
    *
    *  @param entity_id
@@ -2376,17 +2472,17 @@ public class CentralIndex
 
 
   /**
-   * Allows a social media object to be reduced in confidence
+   * Allows a special offer object to be reduced in confidence
    *
    *  @param entity_id
    *  @param gen_id
    *  @return - the data from the api
   */
-  public String deleteEntitySocialmedia( String entity_id, String gen_id) {
+  public String deleteEntitySpecial_offer( String entity_id, String gen_id) {
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
     p.Add("gen_id",gen_id);
-    return doCurl("DELETE","/entity/socialmedia",p);
+    return doCurl("DELETE","/entity/special_offer",p);
   }
 
 
@@ -2418,21 +2514,6 @@ public class CentralIndex
 
 
   /**
-   * Allows a special offer object to be reduced in confidence
-   *
-   *  @param entity_id
-   *  @param gen_id
-   *  @return - the data from the api
-  */
-  public String deleteEntitySpecial_offer( String entity_id, String gen_id) {
-    Hashtable p = new Hashtable();
-    p.Add("entity_id",entity_id);
-    p.Add("gen_id",gen_id);
-    return doCurl("DELETE","/entity/special_offer",p);
-  }
-
-
-  /**
    * With a known entity id, a status object can be updated.
    *
    *  @param entity_id
@@ -2448,6 +2529,21 @@ public class CentralIndex
     p.Add("inactive_reason",inactive_reason);
     p.Add("inactive_description",inactive_description);
     return doCurl("POST","/entity/status",p);
+  }
+
+
+  /**
+   * Allows a tag object to be reduced in confidence
+   *
+   *  @param entity_id
+   *  @param gen_id
+   *  @return - the data from the api
+  */
+  public String deleteEntityTag( String entity_id, String gen_id) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("gen_id",gen_id);
+    return doCurl("DELETE","/entity/tag",p);
   }
 
 
@@ -2469,17 +2565,17 @@ public class CentralIndex
 
 
   /**
-   * Allows a tag object to be reduced in confidence
+   * Allows a testimonial object to be reduced in confidence
    *
    *  @param entity_id
    *  @param gen_id
    *  @return - the data from the api
   */
-  public String deleteEntityTag( String entity_id, String gen_id) {
+  public String deleteEntityTestimonial( String entity_id, String gen_id) {
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
     p.Add("gen_id",gen_id);
-    return doCurl("DELETE","/entity/tag",p);
+    return doCurl("DELETE","/entity/testimonial",p);
   }
 
 
@@ -2501,21 +2597,6 @@ public class CentralIndex
     p.Add("date",date);
     p.Add("testifier_name",testifier_name);
     return doCurl("POST","/entity/testimonial",p);
-  }
-
-
-  /**
-   * Allows a testimonial object to be reduced in confidence
-   *
-   *  @param entity_id
-   *  @param gen_id
-   *  @return - the data from the api
-  */
-  public String deleteEntityTestimonial( String entity_id, String gen_id) {
-    Hashtable p = new Hashtable();
-    p.Add("entity_id",entity_id);
-    p.Add("gen_id",gen_id);
-    return doCurl("DELETE","/entity/testimonial",p);
   }
 
 
@@ -2644,13 +2725,17 @@ public class CentralIndex
    *  @param entity_id - The id of the entity to create the entityserve event for
    *  @param country - the ISO code of the country
    *  @param event_type - The event type being recorded
+   *  @param domain
+   *  @param path
    *  @return - the data from the api
   */
-  public String putEntityserve( String entity_id, String country, String event_type) {
+  public String putEntityserve( String entity_id, String country, String event_type, String domain, String path) {
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
     p.Add("country",country);
     p.Add("event_type",event_type);
+    p.Add("domain",domain);
+    p.Add("path",path);
     return doCurl("PUT","/entityserve",p);
   }
 
