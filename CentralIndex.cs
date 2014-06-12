@@ -3566,24 +3566,28 @@ public class CentralIndex
   /**
    * Create a matching log
    *
-   *  @param processed_entity_id
-   *  @param matched_entity_id
-   *  @param processed_mega
-   *  @param matched_mega
-   *  @param processed_group
-   *  @param matched_group
-   *  @param merged
+   *  @param primary_entity_id
+   *  @param secondary_entity_id
+   *  @param primary_name
+   *  @param secondary_name
+   *  @param address_score
+   *  @param address_match
+   *  @param name_score
+   *  @param name_match
+   *  @param distance
    *  @return - the data from the api
   */
-  public String putMatching_log( String processed_entity_id, String matched_entity_id, String processed_mega, String matched_mega, String processed_group, String matched_group, String merged) {
+  public String putMatching_log( String primary_entity_id, String secondary_entity_id, String primary_name, String secondary_name, String address_score, String address_match, String name_score, String name_match, String distance) {
     Hashtable p = new Hashtable();
-    p.Add("processed_entity_id",processed_entity_id);
-    p.Add("matched_entity_id",matched_entity_id);
-    p.Add("processed_mega",processed_mega);
-    p.Add("matched_mega",matched_mega);
-    p.Add("processed_group",processed_group);
-    p.Add("matched_group",matched_group);
-    p.Add("merged",merged);
+    p.Add("primary_entity_id",primary_entity_id);
+    p.Add("secondary_entity_id",secondary_entity_id);
+    p.Add("primary_name",primary_name);
+    p.Add("secondary_name",secondary_name);
+    p.Add("address_score",address_score);
+    p.Add("address_match",address_match);
+    p.Add("name_score",name_score);
+    p.Add("name_match",name_match);
+    p.Add("distance",distance);
     return doCurl("PUT","/matching_log",p);
   }
 
