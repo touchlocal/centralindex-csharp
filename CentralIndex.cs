@@ -3693,10 +3693,13 @@ public class CentralIndex
    *  @param name_match
    *  @param distance
    *  @param phone_match
+   *  @param category_match
+   *  @param email_match
+   *  @param website_match
    *  @param match
    *  @return - the data from the api
   */
-  public String putMatching_log( String primary_entity_id, String secondary_entity_id, String primary_name, String secondary_name, String address_score, String address_match, String name_score, String name_match, String distance, String phone_match, String match) {
+  public String putMatching_log( String primary_entity_id, String secondary_entity_id, String primary_name, String secondary_name, String address_score, String address_match, String name_score, String name_match, String distance, String phone_match, String category_match, String email_match, String website_match, String match) {
     Hashtable p = new Hashtable();
     p.Add("primary_entity_id",primary_entity_id);
     p.Add("secondary_entity_id",secondary_entity_id);
@@ -3708,6 +3711,9 @@ public class CentralIndex
     p.Add("name_match",name_match);
     p.Add("distance",distance);
     p.Add("phone_match",phone_match);
+    p.Add("category_match",category_match);
+    p.Add("email_match",email_match);
+    p.Add("website_match",website_match);
     p.Add("match",match);
     return doCurl("PUT","/matching_log",p);
   }
