@@ -246,9 +246,10 @@ public class CentralIndex
    *  @param referrer_url
    *  @param referrer_name
    *  @param destructive
+   *  @param delete_mode - The type of object contribution deletion
    *  @return - the data from the api
   */
-  public String putBusiness( String name, String building_number, String branch_name, String address1, String address2, String address3, String district, String town, String county, String province, String postcode, String country, String latitude, String longitude, String timezone, String telephone_number, String additional_telephone_number, String email, String website, String category_id, String category_type, String do_not_display, String referrer_url, String referrer_name, String destructive) {
+  public String putBusiness( String name, String building_number, String branch_name, String address1, String address2, String address3, String district, String town, String county, String province, String postcode, String country, String latitude, String longitude, String timezone, String telephone_number, String additional_telephone_number, String email, String website, String category_id, String category_type, String do_not_display, String referrer_url, String referrer_name, String destructive, String delete_mode) {
     Hashtable p = new Hashtable();
     p.Add("name",name);
     p.Add("building_number",building_number);
@@ -275,6 +276,7 @@ public class CentralIndex
     p.Add("referrer_url",referrer_url);
     p.Add("referrer_name",referrer_name);
     p.Add("destructive",destructive);
+    p.Add("delete_mode",delete_mode);
     return doCurl("PUT","/business",p);
   }
 
@@ -938,13 +940,15 @@ public class CentralIndex
    *  @param entity_id - The unique entity ID e.g. 379236608286720
    *  @param domain
    *  @param path
+   *  @param data_filter
    *  @return - the data from the api
   */
-  public String getEntity( String entity_id, String domain, String path) {
+  public String getEntity( String entity_id, String domain, String path, String data_filter) {
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
     p.Add("domain",domain);
     p.Add("path",path);
+    p.Add("data_filter",data_filter);
     return doCurl("GET","/entity",p);
   }
 
@@ -1876,9 +1880,10 @@ public class CentralIndex
    *  @param uncontribute_masheryid - Do we want to uncontribute any data for a masheryid?
    *  @param uncontribute_userid - Do we want to uncontribute any data for a user_id?
    *  @param uncontribute_supplierid - Do we want to uncontribute any data for a supplier_id?
+   *  @param delete_mode - The type of object contribution deletion
    *  @return - the data from the api
   */
-  public String postEntityMerge( String from, String to, String override_trust, String uncontribute_masheryid, String uncontribute_userid, String uncontribute_supplierid) {
+  public String postEntityMerge( String from, String to, String override_trust, String uncontribute_masheryid, String uncontribute_userid, String uncontribute_supplierid, String delete_mode) {
     Hashtable p = new Hashtable();
     p.Add("from",from);
     p.Add("to",to);
@@ -1886,6 +1891,7 @@ public class CentralIndex
     p.Add("uncontribute_masheryid",uncontribute_masheryid);
     p.Add("uncontribute_userid",uncontribute_userid);
     p.Add("uncontribute_supplierid",uncontribute_supplierid);
+    p.Add("delete_mode",delete_mode);
     return doCurl("POST","/entity/merge",p);
   }
 
@@ -4372,9 +4378,10 @@ public class CentralIndex
    *  @param description
    *  @param active
    *  @param products
+   *  @param master_user_id
    *  @return - the data from the api
   */
-  public String postReseller( String reseller_id, String country, String name, String description, String active, String products) {
+  public String postReseller( String reseller_id, String country, String name, String description, String active, String products, String master_user_id) {
     Hashtable p = new Hashtable();
     p.Add("reseller_id",reseller_id);
     p.Add("country",country);
@@ -4382,6 +4389,7 @@ public class CentralIndex
     p.Add("description",description);
     p.Add("active",active);
     p.Add("products",products);
+    p.Add("master_user_id",master_user_id);
     return doCurl("POST","/reseller",p);
   }
 
@@ -4641,9 +4649,10 @@ public class CentralIndex
    *  @param seed_masheryid
    *  @param supplier_masheryid
    *  @param country
+   *  @param data_type
    *  @return - the data from the api
   */
-  public String postSyndicationCreate( String syndication_type, String publisher_id, String expiry_date, String entity_id, String group_id, String seed_masheryid, String supplier_masheryid, String country) {
+  public String postSyndicationCreate( String syndication_type, String publisher_id, String expiry_date, String entity_id, String group_id, String seed_masheryid, String supplier_masheryid, String country, String data_type) {
     Hashtable p = new Hashtable();
     p.Add("syndication_type",syndication_type);
     p.Add("publisher_id",publisher_id);
@@ -4653,6 +4662,7 @@ public class CentralIndex
     p.Add("seed_masheryid",seed_masheryid);
     p.Add("supplier_masheryid",supplier_masheryid);
     p.Add("country",country);
+    p.Add("data_type",data_type);
     return doCurl("POST","/syndication/create",p);
   }
 
