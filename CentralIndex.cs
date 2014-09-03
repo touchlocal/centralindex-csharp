@@ -247,9 +247,10 @@ public class CentralIndex
    *  @param referrer_name
    *  @param destructive
    *  @param delete_mode - The type of object contribution deletion
+   *  @param master_entity_id - The entity you want this data to go to
    *  @return - the data from the api
   */
-  public String putBusiness( String name, String building_number, String branch_name, String address1, String address2, String address3, String district, String town, String county, String province, String postcode, String country, String latitude, String longitude, String timezone, String telephone_number, String additional_telephone_number, String email, String website, String category_id, String category_type, String do_not_display, String referrer_url, String referrer_name, String destructive, String delete_mode) {
+  public String putBusiness( String name, String building_number, String branch_name, String address1, String address2, String address3, String district, String town, String county, String province, String postcode, String country, String latitude, String longitude, String timezone, String telephone_number, String additional_telephone_number, String email, String website, String category_id, String category_type, String do_not_display, String referrer_url, String referrer_name, String destructive, String delete_mode, String master_entity_id) {
     Hashtable p = new Hashtable();
     p.Add("name",name);
     p.Add("building_number",building_number);
@@ -277,6 +278,7 @@ public class CentralIndex
     p.Add("referrer_name",referrer_name);
     p.Add("destructive",destructive);
     p.Add("delete_mode",delete_mode);
+    p.Add("master_entity_id",master_entity_id);
     return doCurl("PUT","/business",p);
   }
 
@@ -287,13 +289,15 @@ public class CentralIndex
    *  @param json - Business JSON
    *  @param country - The country to fetch results for e.g. gb
    *  @param timezone
+   *  @param master_entity_id - The entity you want this data to go to
    *  @return - the data from the api
   */
-  public String putBusinessJson( String json, String country, String timezone) {
+  public String putBusinessJson( String json, String country, String timezone, String master_entity_id) {
     Hashtable p = new Hashtable();
     p.Add("json",json);
     p.Add("country",country);
     p.Add("timezone",timezone);
+    p.Add("master_entity_id",master_entity_id);
     return doCurl("PUT","/business/json",p);
   }
 
@@ -5537,7 +5541,7 @@ public class CentralIndex
 
 
   /**
-   * Fetch the entity and convert it to Nokia CSV format
+   * Fetch the entity and convert it to Nokia NBS CSV format
    *
    *  @param entity_id - The entity_id to fetch
    *  @return - the data from the api
