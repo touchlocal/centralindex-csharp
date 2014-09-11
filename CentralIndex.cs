@@ -2700,15 +2700,19 @@ public class CentralIndex
    * Separates an entity into two distinct entities 
    *
    *  @param entity_id
-   *  @param supplier_masheryid
-   *  @param supplier_id
+   *  @param unmerge_masheryid
+   *  @param unmerge_supplier_id
+   *  @param unmerge_user_id
+   *  @param destructive
    *  @return - the data from the api
   */
-  public String postEntityUnmerge( String entity_id, String supplier_masheryid, String supplier_id) {
+  public String postEntityUnmerge( String entity_id, String unmerge_masheryid, String unmerge_supplier_id, String unmerge_user_id, String destructive) {
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
-    p.Add("supplier_masheryid",supplier_masheryid);
-    p.Add("supplier_id",supplier_id);
+    p.Add("unmerge_masheryid",unmerge_masheryid);
+    p.Add("unmerge_supplier_id",unmerge_supplier_id);
+    p.Add("unmerge_user_id",unmerge_user_id);
+    p.Add("destructive",destructive);
     return doCurl("POST","/entity/unmerge",p);
   }
 
