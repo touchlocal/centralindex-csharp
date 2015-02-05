@@ -2118,15 +2118,17 @@ public class CentralIndex
    *  @param purge_masheryid - The purge masheryid to match
    *  @param purge_supplier_id - The purge supplier id to match
    *  @param purge_user_id - The purge user id to match
+   *  @param exclude - List of entity fields that are excluded from the purge
    *  @param destructive
    *  @return - the data from the api
   */
-  public String postEntityPurge( String entity_id, String purge_masheryid, String purge_supplier_id, String purge_user_id, String destructive) {
+  public String postEntityPurge( String entity_id, String purge_masheryid, String purge_supplier_id, String purge_user_id, String exclude, String destructive) {
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
     p.Add("purge_masheryid",purge_masheryid);
     p.Add("purge_supplier_id",purge_supplier_id);
     p.Add("purge_user_id",purge_user_id);
+    p.Add("exclude",exclude);
     p.Add("destructive",destructive);
     return doCurl("POST","/entity/purge",p);
   }
