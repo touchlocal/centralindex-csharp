@@ -2947,6 +2947,7 @@ public class CentralIndex
    *  @param serpNumberResults - The number of results per search page
    *  @param serpNumberAdverts - The number of adverts to show on the first search page
    *  @param serpAds - The block of HTML/JS that renders Ads on Serps
+   *  @param serpAdsBottom - The block of HTML/JS that renders Ads on Serps at the bottom
    *  @param serpTitleNoWhat - The text to display in the title for where only searches
    *  @param serpDescriptionNoWhat - The text to display in the description for where only searches
    *  @param cookiePolicyUrl - The cookie policy url of the flatpack
@@ -2967,7 +2968,7 @@ public class CentralIndex
    *  @param linkToRoot - the root domain name to serve this flatpack site on (no leading http:// or anything please)
    *  @return - the data from the api
   */
-  public String postFlatpack( String flatpack_id, String domainName, String stub, String flatpackName, String less, String language, String country, String mapsType, String mapKey, String searchFormShowOn, String searchFormShowKeywordsBox, String searchFormShowLocationBox, String searchFormKeywordsAutoComplete, String searchFormLocationsAutoComplete, String searchFormDefaultLocation, String searchFormPlaceholderKeywords, String searchFormPlaceholderLocation, String searchFormKeywordsLabel, String searchFormLocationLabel, String cannedLinksHeader, String homepageTitle, String homepageDescription, String homepageIntroTitle, String homepageIntroText, String head, String adblock, String bodyTop, String bodyBottom, String header_menu, String header_menu_bottom, String footer_menu, String bdpTitle, String bdpDescription, String bdpAds, String serpTitle, String serpDescription, String serpNumberResults, String serpNumberAdverts, String serpAds, String serpTitleNoWhat, String serpDescriptionNoWhat, String cookiePolicyUrl, String cookiePolicyNotice, String addBusinessButtonText, String twitterUrl, String facebookUrl, String copyright, String phoneReveal, String loginLinkText, String contextLocationId, String addBusinessButtonPosition, String denyIndexing, String contextRadius, String activityStream, String activityStreamSize, String products, String linkToRoot) {
+  public String postFlatpack( String flatpack_id, String domainName, String stub, String flatpackName, String less, String language, String country, String mapsType, String mapKey, String searchFormShowOn, String searchFormShowKeywordsBox, String searchFormShowLocationBox, String searchFormKeywordsAutoComplete, String searchFormLocationsAutoComplete, String searchFormDefaultLocation, String searchFormPlaceholderKeywords, String searchFormPlaceholderLocation, String searchFormKeywordsLabel, String searchFormLocationLabel, String cannedLinksHeader, String homepageTitle, String homepageDescription, String homepageIntroTitle, String homepageIntroText, String head, String adblock, String bodyTop, String bodyBottom, String header_menu, String header_menu_bottom, String footer_menu, String bdpTitle, String bdpDescription, String bdpAds, String serpTitle, String serpDescription, String serpNumberResults, String serpNumberAdverts, String serpAds, String serpAdsBottom, String serpTitleNoWhat, String serpDescriptionNoWhat, String cookiePolicyUrl, String cookiePolicyNotice, String addBusinessButtonText, String twitterUrl, String facebookUrl, String copyright, String phoneReveal, String loginLinkText, String contextLocationId, String addBusinessButtonPosition, String denyIndexing, String contextRadius, String activityStream, String activityStreamSize, String products, String linkToRoot) {
     Hashtable p = new Hashtable();
     p.Add("flatpack_id",flatpack_id);
     p.Add("domainName",domainName);
@@ -3008,6 +3009,7 @@ public class CentralIndex
     p.Add("serpNumberResults",serpNumberResults);
     p.Add("serpNumberAdverts",serpNumberAdverts);
     p.Add("serpAds",serpAds);
+    p.Add("serpAdsBottom",serpAdsBottom);
     p.Add("serpTitleNoWhat",serpTitleNoWhat);
     p.Add("serpDescriptionNoWhat",serpDescriptionNoWhat);
     p.Add("cookiePolicyUrl",cookiePolicyUrl);
