@@ -4157,14 +4157,16 @@ public class CentralIndex
    *  @param type
    *  @param action
    *  @param data
+   *  @param slack_channel
    *  @return - the data from the api
   */
-  public String postOps_log( String success, String type, String action, String data) {
+  public String postOps_log( String success, String type, String action, String data, String slack_channel) {
     Hashtable p = new Hashtable();
     p.Add("success",success);
     p.Add("type",type);
     p.Add("action",action);
     p.Add("data",data);
+    p.Add("slack_channel",slack_channel);
     return doCurl("POST","/ops_log",p);
   }
 
