@@ -5591,14 +5591,16 @@ public class CentralIndex
    *  @param from - The phone number to call from
    *  @param pin - The pin to verify the phone number with
    *  @param twilio_voice - The language to read the verification in
+   *  @param extension - The pin to verify the phone number with
    *  @return - the data from the api
   */
-  public String getToolsPhonecallVerify( String to, String from, String pin, String twilio_voice) {
+  public String getToolsPhonecallVerify( String to, String from, String pin, String twilio_voice, String extension) {
     Hashtable p = new Hashtable();
     p.Add("to",to);
     p.Add("from",from);
     p.Add("pin",pin);
     p.Add("twilio_voice",twilio_voice);
+    p.Add("extension",extension);
     return doCurl("GET","/tools/phonecall/verify",p);
   }
 
