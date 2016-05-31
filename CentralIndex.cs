@@ -2143,13 +2143,15 @@ public class CentralIndex
    *
    *  @param entity_id
    *  @param number
+   *  @param description
    *  @param trackable
    *  @return - the data from the api
   */
-  public String postEntityPhone( String entity_id, String number, String trackable) {
+  public String postEntityPhone( String entity_id, String number, String description, String trackable) {
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
     p.Add("number",number);
+    p.Add("description",description);
     p.Add("trackable",trackable);
     return doCurl("POST","/entity/phone",p);
   }
