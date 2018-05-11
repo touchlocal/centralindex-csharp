@@ -5639,14 +5639,16 @@ public class CentralIndex
    *  @param language - The language to use to render the claim path e.g. en
    *  @param portal_name - The name of the website that entity is being claimed on e.g. YourLocal
    *  @param flatpack_id - The id of the flatpack site where the request originated
+   *  @param admin_host - The admin host to refer back to - will only be respected if whitelisted in configuration
    *  @return - the data from the api
   */
-  public String getTokenClaim( String entity_id, String language, String portal_name, String flatpack_id) {
+  public String getTokenClaim( String entity_id, String language, String portal_name, String flatpack_id, String admin_host) {
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
     p.Add("language",language);
     p.Add("portal_name",portal_name);
     p.Add("flatpack_id",flatpack_id);
+    p.Add("admin_host",admin_host);
     return doCurl("GET","/token/claim",p);
   }
 
