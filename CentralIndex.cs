@@ -2762,9 +2762,10 @@ public class CentralIndex
    *  @param domain
    *  @param path
    *  @param restrict_category_ids - Pipe delimited optional IDs to restrict matches to (optional)
+   *  @param include_ads - Find nearby advertisers with tags that match the keyword
    *  @return - the data from the api
   */
-  public String getEntitySearchKeywordBynearest( String keyword, String country, String per_page, String page, String language, String latitude, String longitude, String domain, String path, String restrict_category_ids) {
+  public String getEntitySearchKeywordBynearest( String keyword, String country, String per_page, String page, String language, String latitude, String longitude, String domain, String path, String restrict_category_ids, String include_ads) {
     Hashtable p = new Hashtable();
     p.Add("keyword",keyword);
     p.Add("country",country);
@@ -2776,6 +2777,7 @@ public class CentralIndex
     p.Add("domain",domain);
     p.Add("path",path);
     p.Add("restrict_category_ids",restrict_category_ids);
+    p.Add("include_ads",include_ads);
     return doCurl("GET","/entity/search/keyword/bynearest",p);
   }
 
