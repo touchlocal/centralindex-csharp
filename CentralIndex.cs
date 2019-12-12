@@ -73,25 +73,15 @@ public class CentralIndex
     }
     
   /**
-   * When we get some activity make a record of it
+   * With a 192 id get remote entity data
    *
-   *  @param entity_id - The entity to pull
-   *  @param entity_name - The entity name this entry refers to
-   *  @param type - The activity type.
-   *  @param country - The country for the activity
-   *  @param longitude - The longitude for teh activity
-   *  @param latitude - The latitude for teh activity
+   *  @param oneninetwo_id
    *  @return - the data from the api
   */
-  public String postActivity_stream( String entity_id, String entity_name, String type, String country, String longitude, String latitude) {
+  public String get192Get( String oneninetwo_id) {
     Hashtable p = new Hashtable();
-    p.Add("entity_id",entity_id);
-    p.Add("entity_name",entity_name);
-    p.Add("type",type);
-    p.Add("country",country);
-    p.Add("longitude",longitude);
-    p.Add("latitude",latitude);
-    return doCurl("POST","/activity_stream",p);
+    p.Add("oneninetwo_id",oneninetwo_id);
+    return doCurl("GET","/192/get",p);
   }
 
 
@@ -119,6 +109,29 @@ public class CentralIndex
     p.Add("number_results",number_results);
     p.Add("unique_action",unique_action);
     return doCurl("GET","/activity_stream",p);
+  }
+
+
+  /**
+   * When we get some activity make a record of it
+   *
+   *  @param entity_id - The entity to pull
+   *  @param entity_name - The entity name this entry refers to
+   *  @param type - The activity type.
+   *  @param country - The country for the activity
+   *  @param longitude - The longitude for teh activity
+   *  @param latitude - The latitude for teh activity
+   *  @return - the data from the api
+  */
+  public String postActivity_stream( String entity_id, String entity_name, String type, String country, String longitude, String latitude) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("entity_name",entity_name);
+    p.Add("type",type);
+    p.Add("country",country);
+    p.Add("longitude",longitude);
+    p.Add("latitude",latitude);
+    return doCurl("POST","/activity_stream",p);
   }
 
 
@@ -210,6 +223,19 @@ public class CentralIndex
 
 
   /**
+   * Delete an association
+   *
+   *  @param association_id
+   *  @return - the data from the api
+  */
+  public String deleteAssociation( String association_id) {
+    Hashtable p = new Hashtable();
+    p.Add("association_id",association_id);
+    return doCurl("DELETE","/association",p);
+  }
+
+
+  /**
    * Will create a new association or update an existing one
    *
    *  @param association_id
@@ -229,29 +255,18 @@ public class CentralIndex
 
 
   /**
-   * Delete an association
-   *
-   *  @param association_id
-   *  @return - the data from the api
-  */
-  public String deleteAssociation( String association_id) {
-    Hashtable p = new Hashtable();
-    p.Add("association_id",association_id);
-    return doCurl("DELETE","/association",p);
-  }
-
-
-  /**
    * The search matches a category name on a given string and language.
    *
    *  @param str - A string to search against, E.g. Plumbers e.g. but
    *  @param language - An ISO compatible language code, E.g. en e.g. en
+   *  @param mapped_to_partner - Only return CI categories that have a partner mapping
    *  @return - the data from the api
   */
-  public String getAutocompleteCategory( String str, String language) {
+  public String getAutocompleteCategory( String str, String language, String mapped_to_partner) {
     Hashtable p = new Hashtable();
     p.Add("str",str);
     p.Add("language",language);
+    p.Add("mapped_to_partner",mapped_to_partner);
     return doCurl("GET","/autocomplete/category",p);
   }
 
@@ -261,12 +276,14 @@ public class CentralIndex
    *
    *  @param str - A string to search against, E.g. Plumbers e.g. but
    *  @param language - An ISO compatible language code, E.g. en e.g. en
+   *  @param mapped_to_partner - Only return CI categories that have a partner mapping
    *  @return - the data from the api
   */
-  public String getAutocompleteCategoryId( String str, String language) {
+  public String getAutocompleteCategoryId( String str, String language, String mapped_to_partner) {
     Hashtable p = new Hashtable();
     p.Add("str",str);
     p.Add("language",language);
+    p.Add("mapped_to_partner",mapped_to_partner);
     return doCurl("GET","/autocomplete/category/id",p);
   }
 
@@ -339,6 +356,7 @@ public class CentralIndex
    *  @param longitude
    *  @param timezone
    *  @param telephone_number
+   *  @param allow_no_phone
    *  @param additional_telephone_number
    *  @param email
    *  @param website
@@ -352,7 +370,7 @@ public class CentralIndex
    *  @param master_entity_id - The entity you want this data to go to
    *  @return - the data from the api
   */
-  public String putBusiness( String name, String building_number, String branch_name, String address1, String address2, String address3, String district, String town, String county, String province, String postcode, String country, String latitude, String longitude, String timezone, String telephone_number, String additional_telephone_number, String email, String website, String category_id, String category_type, String do_not_display, String referrer_url, String referrer_name, String destructive, String delete_mode, String master_entity_id) {
+  public String putBusiness( String name, String building_number, String branch_name, String address1, String address2, String address3, String district, String town, String county, String province, String postcode, String country, String latitude, String longitude, String timezone, String telephone_number, String allow_no_phone, String additional_telephone_number, String email, String website, String category_id, String category_type, String do_not_display, String referrer_url, String referrer_name, String destructive, String delete_mode, String master_entity_id) {
     Hashtable p = new Hashtable();
     p.Add("name",name);
     p.Add("building_number",building_number);
@@ -370,6 +388,7 @@ public class CentralIndex
     p.Add("longitude",longitude);
     p.Add("timezone",timezone);
     p.Add("telephone_number",telephone_number);
+    p.Add("allow_no_phone",allow_no_phone);
     p.Add("additional_telephone_number",additional_telephone_number);
     p.Add("email",email);
     p.Add("website",website);
@@ -422,6 +441,29 @@ public class CentralIndex
 
 
   /**
+   * Update/Add a Business Tool
+   *
+   *  @param tool_id
+   *  @param country
+   *  @param headline
+   *  @param description
+   *  @param link_url
+   *  @param active
+   *  @return - the data from the api
+  */
+  public String postBusiness_tool( String tool_id, String country, String headline, String description, String link_url, String active) {
+    Hashtable p = new Hashtable();
+    p.Add("tool_id",tool_id);
+    p.Add("country",country);
+    p.Add("headline",headline);
+    p.Add("description",description);
+    p.Add("link_url",link_url);
+    p.Add("active",active);
+    return doCurl("POST","/business_tool",p);
+  }
+
+
+  /**
    * Delete a business tool with a specified tool_id
    *
    *  @param tool_id
@@ -444,29 +486,6 @@ public class CentralIndex
     Hashtable p = new Hashtable();
     p.Add("tool_id",tool_id);
     return doCurl("GET","/business_tool",p);
-  }
-
-
-  /**
-   * Update/Add a Business Tool
-   *
-   *  @param tool_id
-   *  @param country
-   *  @param headline
-   *  @param description
-   *  @param link_url
-   *  @param active
-   *  @return - the data from the api
-  */
-  public String postBusiness_tool( String tool_id, String country, String headline, String description, String link_url, String active) {
-    Hashtable p = new Hashtable();
-    p.Add("tool_id",tool_id);
-    p.Add("country",country);
-    p.Add("headline",headline);
-    p.Add("description",description);
-    p.Add("link_url",link_url);
-    p.Add("active",active);
-    return doCurl("POST","/business_tool",p);
   }
 
 
@@ -499,6 +518,21 @@ public class CentralIndex
 
 
   /**
+   * With a known cache key get the data from cache
+   *
+   *  @param cache_key
+   *  @param use_compression
+   *  @return - the data from the api
+  */
+  public String getCache( String cache_key, String use_compression) {
+    Hashtable p = new Hashtable();
+    p.Add("cache_key",cache_key);
+    p.Add("use_compression",use_compression);
+    return doCurl("GET","/cache",p);
+  }
+
+
+  /**
    * Add some data to the cache with a given expiry
    *
    *  @param cache_key
@@ -514,21 +548,6 @@ public class CentralIndex
     p.Add("data",data);
     p.Add("use_compression",use_compression);
     return doCurl("POST","/cache",p);
-  }
-
-
-  /**
-   * With a known cache key get the data from cache
-   *
-   *  @param cache_key
-   *  @param use_compression
-   *  @return - the data from the api
-  */
-  public String getCache( String cache_key, String use_compression) {
-    Hashtable p = new Hashtable();
-    p.Add("cache_key",cache_key);
-    p.Add("use_compression",use_compression);
-    return doCurl("GET","/cache",p);
   }
 
 
@@ -574,6 +593,23 @@ public class CentralIndex
 
 
   /**
+   * With a known category id, a mapping object can be deleted.
+   *
+   *  @param category_id
+   *  @param category_type
+   *  @param mapped_id
+   *  @return - the data from the api
+  */
+  public String deleteCategoryMappings( String category_id, String category_type, String mapped_id) {
+    Hashtable p = new Hashtable();
+    p.Add("category_id",category_id);
+    p.Add("category_type",category_type);
+    p.Add("mapped_id",mapped_id);
+    return doCurl("DELETE","/category/mappings",p);
+  }
+
+
+  /**
    * With a known category id, a mapping object can be added.
    *
    *  @param category_id
@@ -593,23 +629,6 @@ public class CentralIndex
 
 
   /**
-   * With a known category id, a mapping object can be deleted.
-   *
-   *  @param category_id
-   *  @param category_type
-   *  @param mapped_id
-   *  @return - the data from the api
-  */
-  public String deleteCategoryMappings( String category_id, String category_type, String mapped_id) {
-    Hashtable p = new Hashtable();
-    p.Add("category_id",category_id);
-    p.Add("category_type",category_type);
-    p.Add("mapped_id",mapped_id);
-    return doCurl("DELETE","/category/mappings",p);
-  }
-
-
-  /**
    * Allows a category object to merged with another
    *
    *  @param from
@@ -621,23 +640,6 @@ public class CentralIndex
     p.Add("from",from);
     p.Add("to",to);
     return doCurl("POST","/category/merge",p);
-  }
-
-
-  /**
-   * With a known category id, a synonyms object can be removed.
-   *
-   *  @param category_id
-   *  @param synonym
-   *  @param language
-   *  @return - the data from the api
-  */
-  public String deleteCategorySynonym( String category_id, String synonym, String language) {
-    Hashtable p = new Hashtable();
-    p.Add("category_id",category_id);
-    p.Add("synonym",synonym);
-    p.Add("language",language);
-    return doCurl("DELETE","/category/synonym",p);
   }
 
 
@@ -655,6 +657,23 @@ public class CentralIndex
     p.Add("synonym",synonym);
     p.Add("language",language);
     return doCurl("POST","/category/synonym",p);
+  }
+
+
+  /**
+   * With a known category id, a synonyms object can be removed.
+   *
+   *  @param category_id
+   *  @param synonym
+   *  @param language
+   *  @return - the data from the api
+  */
+  public String deleteCategorySynonym( String category_id, String synonym, String language) {
+    Hashtable p = new Hashtable();
+    p.Add("category_id",category_id);
+    p.Add("synonym",synonym);
+    p.Add("language",language);
+    return doCurl("DELETE","/category/synonym",p);
   }
 
 
@@ -921,19 +940,6 @@ public class CentralIndex
 
 
   /**
-   * Fetching a country
-   *
-   *  @param country_id
-   *  @return - the data from the api
-  */
-  public String getCountry( String country_id) {
-    Hashtable p = new Hashtable();
-    p.Add("country_id",country_id);
-    return doCurl("GET","/country",p);
-  }
-
-
-  /**
    * Update/Add a country
    *
    *  @param country_id
@@ -1005,6 +1011,19 @@ public class CentralIndex
 
 
   /**
+   * Fetching a country
+   *
+   *  @param country_id
+   *  @return - the data from the api
+  */
+  public String getCountry( String country_id) {
+    Hashtable p = new Hashtable();
+    p.Add("country_id",country_id);
+    return doCurl("GET","/country",p);
+  }
+
+
+  /**
    * An API call to fetch a crash report by its ID
    *
    *  @param crash_report_id - The crash report to pull
@@ -1041,27 +1060,6 @@ public class CentralIndex
 
 
   /**
-   * This entity isn't really supported anymore. You probably want PUT /business. Only to be used for testing.
-   *
-   *  @param type
-   *  @param scope
-   *  @param country
-   *  @param trust
-   *  @param our_data
-   *  @return - the data from the api
-  */
-  public String putEntity( String type, String scope, String country, String trust, String our_data) {
-    Hashtable p = new Hashtable();
-    p.Add("type",type);
-    p.Add("scope",scope);
-    p.Add("country",country);
-    p.Add("trust",trust);
-    p.Add("our_data",our_data);
-    return doCurl("PUT","/entity",p);
-  }
-
-
-  /**
    * Allows a whole entity to be pulled from the datastore by its unique id
    *
    *  @param entity_id - The unique entity ID e.g. 379236608286720
@@ -1079,6 +1077,27 @@ public class CentralIndex
     p.Add("data_filter",data_filter);
     p.Add("filter_by_confidence",filter_by_confidence);
     return doCurl("GET","/entity",p);
+  }
+
+
+  /**
+   * This entity isn't really supported anymore. You probably want PUT /business. Only to be used for testing.
+   *
+   *  @param type
+   *  @param scope
+   *  @param country
+   *  @param trust
+   *  @param our_data
+   *  @return - the data from the api
+  */
+  public String putEntity( String type, String scope, String country, String trust, String our_data) {
+    Hashtable p = new Hashtable();
+    p.Add("type",type);
+    p.Add("scope",scope);
+    p.Add("country",country);
+    p.Add("trust",trust);
+    p.Add("our_data",our_data);
+    return doCurl("PUT","/entity",p);
   }
 
 
@@ -1416,6 +1435,21 @@ public class CentralIndex
 
 
   /**
+   * Adding an affiliate adblock to a known entity
+   *
+   *  @param entity_id
+   *  @param adblock - Number of results returned per page
+   *  @return - the data from the api
+  */
+  public String postEntityAffiliate_adblock( String entity_id, String adblock) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("adblock",adblock);
+    return doCurl("POST","/entity/affiliate_adblock",p);
+  }
+
+
+  /**
    * Deleteing an affiliate adblock from a known entity
    *
    *  @param entity_id
@@ -1431,17 +1465,17 @@ public class CentralIndex
 
 
   /**
-   * Adding an affiliate adblock to a known entity
+   * Allows an affiliate link object to be reduced in confidence
    *
    *  @param entity_id
-   *  @param adblock - Number of results returned per page
+   *  @param gen_id
    *  @return - the data from the api
   */
-  public String postEntityAffiliate_adblock( String entity_id, String adblock) {
+  public String deleteEntityAffiliate_link( String entity_id, String gen_id) {
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
-    p.Add("adblock",adblock);
-    return doCurl("POST","/entity/affiliate_adblock",p);
+    p.Add("gen_id",gen_id);
+    return doCurl("DELETE","/entity/affiliate_link",p);
   }
 
 
@@ -1469,17 +1503,17 @@ public class CentralIndex
 
 
   /**
-   * Allows an affiliate link object to be reduced in confidence
+   * Remove an announcement object to an existing entity.
    *
    *  @param entity_id
-   *  @param gen_id
+   *  @param announcement_id
    *  @return - the data from the api
   */
-  public String deleteEntityAffiliate_link( String entity_id, String gen_id) {
+  public String deleteEntityAnnouncement( String entity_id, String announcement_id) {
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
-    p.Add("gen_id",gen_id);
-    return doCurl("DELETE","/entity/affiliate_link",p);
+    p.Add("announcement_id",announcement_id);
+    return doCurl("DELETE","/entity/announcement",p);
   }
 
 
@@ -1534,17 +1568,17 @@ public class CentralIndex
 
 
   /**
-   * Remove an announcement object to an existing entity.
+   * Allows a association_membership object to be reduced in confidence
    *
    *  @param entity_id
-   *  @param announcement_id
+   *  @param gen_id
    *  @return - the data from the api
   */
-  public String deleteEntityAnnouncement( String entity_id, String announcement_id) {
+  public String deleteEntityAssociation_membership( String entity_id, String gen_id) {
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
-    p.Add("announcement_id",announcement_id);
-    return doCurl("DELETE","/entity/announcement",p);
+    p.Add("gen_id",gen_id);
+    return doCurl("DELETE","/entity/association_membership",p);
   }
 
 
@@ -1564,21 +1598,6 @@ public class CentralIndex
     p.Add("association_member_url",association_member_url);
     p.Add("association_member_id",association_member_id);
     return doCurl("POST","/entity/association_membership",p);
-  }
-
-
-  /**
-   * Allows a association_membership object to be reduced in confidence
-   *
-   *  @param entity_id
-   *  @param gen_id
-   *  @return - the data from the api
-  */
-  public String deleteEntityAssociation_membership( String entity_id, String gen_id) {
-    Hashtable p = new Hashtable();
-    p.Add("entity_id",entity_id);
-    p.Add("gen_id",gen_id);
-    return doCurl("DELETE","/entity/association_membership",p);
   }
 
 
@@ -1748,21 +1767,6 @@ public class CentralIndex
 
 
   /**
-   * Allows a category object to be reduced in confidence
-   *
-   *  @param entity_id
-   *  @param gen_id
-   *  @return - the data from the api
-  */
-  public String deleteEntityCategory( String entity_id, String gen_id) {
-    Hashtable p = new Hashtable();
-    p.Add("entity_id",entity_id);
-    p.Add("gen_id",gen_id);
-    return doCurl("DELETE","/entity/category",p);
-  }
-
-
-  /**
    * With a known entity id, an category object can be added.
    *
    *  @param entity_id
@@ -1776,6 +1780,21 @@ public class CentralIndex
     p.Add("category_id",category_id);
     p.Add("category_type",category_type);
     return doCurl("POST","/entity/category",p);
+  }
+
+
+  /**
+   * Allows a category object to be reduced in confidence
+   *
+   *  @param entity_id
+   *  @param gen_id
+   *  @return - the data from the api
+  */
+  public String deleteEntityCategory( String entity_id, String gen_id) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("gen_id",gen_id);
+    return doCurl("DELETE","/entity/category",p);
   }
 
 
@@ -2020,21 +2039,6 @@ public class CentralIndex
 
 
   /**
-   * Allows a fax object to be reduced in confidence
-   *
-   *  @param entity_id
-   *  @param gen_id
-   *  @return - the data from the api
-  */
-  public String deleteEntityFax( String entity_id, String gen_id) {
-    Hashtable p = new Hashtable();
-    p.Add("entity_id",entity_id);
-    p.Add("gen_id",gen_id);
-    return doCurl("DELETE","/entity/fax",p);
-  }
-
-
-  /**
    * With a known entity id, an fax object can be added.
    *
    *  @param entity_id
@@ -2052,15 +2056,17 @@ public class CentralIndex
 
 
   /**
-   * Allows a featured message object to be removed
+   * Allows a fax object to be reduced in confidence
    *
    *  @param entity_id
+   *  @param gen_id
    *  @return - the data from the api
   */
-  public String deleteEntityFeatured_message( String entity_id) {
+  public String deleteEntityFax( String entity_id, String gen_id) {
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
-    return doCurl("DELETE","/entity/featured_message",p);
+    p.Add("gen_id",gen_id);
+    return doCurl("DELETE","/entity/fax",p);
   }
 
 
@@ -2078,6 +2084,19 @@ public class CentralIndex
     p.Add("featured_text",featured_text);
     p.Add("featured_url",featured_url);
     return doCurl("POST","/entity/featured_message",p);
+  }
+
+
+  /**
+   * Allows a featured message object to be removed
+   *
+   *  @param entity_id
+   *  @return - the data from the api
+  */
+  public String deleteEntityFeatured_message( String entity_id) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    return doCurl("DELETE","/entity/featured_message",p);
   }
 
 
@@ -2101,21 +2120,6 @@ public class CentralIndex
 
 
   /**
-   * With a known entity id, a group  can be added to group members.
-   *
-   *  @param entity_id
-   *  @param group_id
-   *  @return - the data from the api
-  */
-  public String postEntityGroup( String entity_id, String group_id) {
-    Hashtable p = new Hashtable();
-    p.Add("entity_id",entity_id);
-    p.Add("group_id",group_id);
-    return doCurl("POST","/entity/group",p);
-  }
-
-
-  /**
    * Allows a group object to be removed from an entities group members
    *
    *  @param entity_id
@@ -2131,17 +2135,17 @@ public class CentralIndex
 
 
   /**
-   * Allows a image object to be reduced in confidence
+   * With a known entity id, a group  can be added to group members.
    *
    *  @param entity_id
-   *  @param gen_id
+   *  @param group_id
    *  @return - the data from the api
   */
-  public String deleteEntityImage( String entity_id, String gen_id) {
+  public String postEntityGroup( String entity_id, String group_id) {
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
-    p.Add("gen_id",gen_id);
-    return doCurl("DELETE","/entity/image",p);
+    p.Add("group_id",group_id);
+    return doCurl("POST","/entity/group",p);
   }
 
 
@@ -2159,6 +2163,21 @@ public class CentralIndex
     p.Add("filedata",filedata);
     p.Add("image_name",image_name);
     return doCurl("POST","/entity/image",p);
+  }
+
+
+  /**
+   * Allows a image object to be reduced in confidence
+   *
+   *  @param entity_id
+   *  @param gen_id
+   *  @return - the data from the api
+  */
+  public String deleteEntityImage( String entity_id, String gen_id) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("gen_id",gen_id);
+    return doCurl("DELETE","/entity/image",p);
   }
 
 
@@ -2226,6 +2245,21 @@ public class CentralIndex
 
 
   /**
+   * Allows a list description object to be reduced in confidence
+   *
+   *  @param gen_id
+   *  @param entity_id
+   *  @return - the data from the api
+  */
+  public String deleteEntityList( String gen_id, String entity_id) {
+    Hashtable p = new Hashtable();
+    p.Add("gen_id",gen_id);
+    p.Add("entity_id",entity_id);
+    return doCurl("DELETE","/entity/list",p);
+  }
+
+
+  /**
    * With a known entity id, a list description object can be added.
    *
    *  @param entity_id
@@ -2239,21 +2273,6 @@ public class CentralIndex
     p.Add("headline",headline);
     p.Add("body",body);
     return doCurl("POST","/entity/list",p);
-  }
-
-
-  /**
-   * Allows a list description object to be reduced in confidence
-   *
-   *  @param gen_id
-   *  @param entity_id
-   *  @return - the data from the api
-  */
-  public String deleteEntityList( String gen_id, String entity_id) {
-    Hashtable p = new Hashtable();
-    p.Add("gen_id",gen_id);
-    p.Add("entity_id",entity_id);
-    return doCurl("DELETE","/entity/list",p);
   }
 
 
@@ -2385,6 +2404,19 @@ public class CentralIndex
 
 
   /**
+   * With a known entity id, a opening times object can be removed.
+   *
+   *  @param entity_id - The id of the entity to edit
+   *  @return - the data from the api
+  */
+  public String deleteEntityOpening_times( String entity_id) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    return doCurl("DELETE","/entity/opening_times",p);
+  }
+
+
+  /**
    * With a known entity id, a opening times object can be added. Each day can be either 'closed' to indicate that the entity is closed that day, '24hour' to indicate that the entity is open all day or single/split time ranges can be supplied in 4-digit 24-hour format, such as '09001730' or '09001200,13001700' to indicate hours of opening.
    *
    *  @param entity_id - The id of the entity to edit
@@ -2416,15 +2448,17 @@ public class CentralIndex
 
 
   /**
-   * With a known entity id, a opening times object can be removed.
+   * With a known entity id, a payment_type object can be added.
    *
-   *  @param entity_id - The id of the entity to edit
+   *  @param entity_id - the id of the entity to add the payment type to
+   *  @param payment_type - the payment type to add to the entity
    *  @return - the data from the api
   */
-  public String deleteEntityOpening_times( String entity_id) {
+  public String postEntityPayment_type( String entity_id, String payment_type) {
     Hashtable p = new Hashtable();
     p.Add("entity_id",entity_id);
-    return doCurl("DELETE","/entity/opening_times",p);
+    p.Add("payment_type",payment_type);
+    return doCurl("POST","/entity/payment_type",p);
   }
 
 
@@ -2440,21 +2474,6 @@ public class CentralIndex
     p.Add("entity_id",entity_id);
     p.Add("gen_id",gen_id);
     return doCurl("DELETE","/entity/payment_type",p);
-  }
-
-
-  /**
-   * With a known entity id, a payment_type object can be added.
-   *
-   *  @param entity_id - the id of the entity to add the payment type to
-   *  @param payment_type - the payment type to add to the entity
-   *  @return - the data from the api
-  */
-  public String postEntityPayment_type( String entity_id, String payment_type) {
-    Hashtable p = new Hashtable();
-    p.Add("entity_id",entity_id);
-    p.Add("payment_type",payment_type);
-    return doCurl("POST","/entity/payment_type",p);
   }
 
 
@@ -2589,21 +2608,6 @@ public class CentralIndex
 
 
   /**
-   * Deletes a specific review for an entity via Review API
-   *
-   *  @param entity_id - The entity with the review
-   *  @param review_id - The review id
-   *  @return - the data from the api
-  */
-  public String deleteEntityReview( String entity_id, String review_id) {
-    Hashtable p = new Hashtable();
-    p.Add("entity_id",entity_id);
-    p.Add("review_id",review_id);
-    return doCurl("DELETE","/entity/review",p);
-  }
-
-
-  /**
    * Appends a review to an entity
    *
    *  @param entity_id - the entity to append the review to
@@ -2625,6 +2629,21 @@ public class CentralIndex
     p.Add("star_rating",star_rating);
     p.Add("domain",domain);
     return doCurl("POST","/entity/review",p);
+  }
+
+
+  /**
+   * Deletes a specific review for an entity via Review API
+   *
+   *  @param entity_id - The entity with the review
+   *  @param review_id - The review id
+   *  @return - the data from the api
+  */
+  public String deleteEntityReview( String entity_id, String review_id) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("review_id",review_id);
+    return doCurl("DELETE","/entity/review",p);
   }
 
 
@@ -3227,6 +3246,21 @@ public class CentralIndex
 
 
   /**
+   * Allows a testimonial object to be reduced in confidence
+   *
+   *  @param entity_id
+   *  @param gen_id
+   *  @return - the data from the api
+  */
+  public String deleteEntityTestimonial( String entity_id, String gen_id) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("gen_id",gen_id);
+    return doCurl("DELETE","/entity/testimonial",p);
+  }
+
+
+  /**
    * With a known entity id, a testimonial object can be added.
    *
    *  @param entity_id
@@ -3244,21 +3278,6 @@ public class CentralIndex
     p.Add("date",date);
     p.Add("testifier_name",testifier_name);
     return doCurl("POST","/entity/testimonial",p);
-  }
-
-
-  /**
-   * Allows a testimonial object to be reduced in confidence
-   *
-   *  @param entity_id
-   *  @param gen_id
-   *  @return - the data from the api
-  */
-  public String deleteEntityTestimonial( String entity_id, String gen_id) {
-    Hashtable p = new Hashtable();
-    p.Add("entity_id",entity_id);
-    p.Add("gen_id",gen_id);
-    return doCurl("DELETE","/entity/testimonial",p);
   }
 
 
@@ -3388,6 +3407,21 @@ public class CentralIndex
 
 
   /**
+   * Allows a website object to be reduced in confidence
+   *
+   *  @param entity_id
+   *  @param gen_id
+   *  @return - the data from the api
+  */
+  public String deleteEntityWebsite( String entity_id, String gen_id) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("gen_id",gen_id);
+    return doCurl("DELETE","/entity/website",p);
+  }
+
+
+  /**
    * With a known entity id, a website object can be added.
    *
    *  @param entity_id
@@ -3405,21 +3439,6 @@ public class CentralIndex
     p.Add("website_description",website_description);
     p.Add("gen_id",gen_id);
     return doCurl("POST","/entity/website",p);
-  }
-
-
-  /**
-   * Allows a website object to be reduced in confidence
-   *
-   *  @param entity_id
-   *  @param gen_id
-   *  @return - the data from the api
-  */
-  public String deleteEntityWebsite( String entity_id, String gen_id) {
-    Hashtable p = new Hashtable();
-    p.Add("entity_id",entity_id);
-    p.Add("gen_id",gen_id);
-    return doCurl("DELETE","/entity/website",p);
   }
 
 
@@ -3986,19 +4005,6 @@ public class CentralIndex
 
 
   /**
-   * Returns group that matches a given group id
-   *
-   *  @param group_id
-   *  @return - the data from the api
-  */
-  public String getGroup( String group_id) {
-    Hashtable p = new Hashtable();
-    p.Add("group_id",group_id);
-    return doCurl("GET","/group",p);
-  }
-
-
-  /**
    * Delete a group with a specified group_id
    *
    *  @param group_id
@@ -4008,6 +4014,19 @@ public class CentralIndex
     Hashtable p = new Hashtable();
     p.Add("group_id",group_id);
     return doCurl("DELETE","/group",p);
+  }
+
+
+  /**
+   * Returns group that matches a given group id
+   *
+   *  @param group_id
+   *  @return - the data from the api
+  */
+  public String getGroup( String group_id) {
+    Hashtable p = new Hashtable();
+    p.Add("group_id",group_id);
+    return doCurl("GET","/group",p);
   }
 
 
@@ -4140,6 +4159,19 @@ public class CentralIndex
 
 
   /**
+   * Get an ingest job from the collection
+   *
+   *  @param job_id
+   *  @return - the data from the api
+  */
+  public String getIngest_job( String job_id) {
+    Hashtable p = new Hashtable();
+    p.Add("job_id",job_id);
+    return doCurl("GET","/ingest_job",p);
+  }
+
+
+  /**
    * Add a ingest job to the collection
    *
    *  @param description
@@ -4151,19 +4183,6 @@ public class CentralIndex
     p.Add("description",description);
     p.Add("category_type",category_type);
     return doCurl("POST","/ingest_job",p);
-  }
-
-
-  /**
-   * Get an ingest job from the collection
-   *
-   *  @param job_id
-   *  @return - the data from the api
-  */
-  public String getIngest_job( String job_id) {
-    Hashtable p = new Hashtable();
-    p.Add("job_id",job_id);
-    return doCurl("GET","/ingest_job",p);
   }
 
 
@@ -4386,19 +4405,6 @@ public class CentralIndex
 
 
   /**
-   * With a unique login_id a login can be retrieved
-   *
-   *  @param login_id
-   *  @return - the data from the api
-  */
-  public String getLogin( String login_id) {
-    Hashtable p = new Hashtable();
-    p.Add("login_id",login_id);
-    return doCurl("GET","/login",p);
-  }
-
-
-  /**
    * With a unique login_id a login can be deleted
    *
    *  @param login_id
@@ -4408,6 +4414,19 @@ public class CentralIndex
     Hashtable p = new Hashtable();
     p.Add("login_id",login_id);
     return doCurl("DELETE","/login",p);
+  }
+
+
+  /**
+   * With a unique login_id a login can be retrieved
+   *
+   *  @param login_id
+   *  @return - the data from the api
+  */
+  public String getLogin( String login_id) {
+    Hashtable p = new Hashtable();
+    p.Add("login_id",login_id);
+    return doCurl("GET","/login",p);
   }
 
 
@@ -4637,19 +4656,6 @@ public class CentralIndex
 
 
   /**
-   * Fetching a message
-   *
-   *  @param message_id - The message id to pull the message for
-   *  @return - the data from the api
-  */
-  public String getMessage( String message_id) {
-    Hashtable p = new Hashtable();
-    p.Add("message_id",message_id);
-    return doCurl("GET","/message",p);
-  }
-
-
-  /**
    * Update/Add a message
    *
    *  @param message_id - Message id to pull
@@ -4679,6 +4685,19 @@ public class CentralIndex
 
 
   /**
+   * Fetching a message
+   *
+   *  @param message_id - The message id to pull the message for
+   *  @return - the data from the api
+  */
+  public String getMessage( String message_id) {
+    Hashtable p = new Hashtable();
+    p.Add("message_id",message_id);
+    return doCurl("GET","/message",p);
+  }
+
+
+  /**
    * Fetching messages by ses_id
    *
    *  @param ses_id - The amazon id to pull the message for
@@ -4688,19 +4707,6 @@ public class CentralIndex
     Hashtable p = new Hashtable();
     p.Add("ses_id",ses_id);
     return doCurl("GET","/message/by_ses_id",p);
-  }
-
-
-  /**
-   * Get a multipack
-   *
-   *  @param multipack_id - the unique id to search for
-   *  @return - the data from the api
-  */
-  public String getMultipack( String multipack_id) {
-    Hashtable p = new Hashtable();
-    p.Add("multipack_id",multipack_id);
-    return doCurl("GET","/multipack",p);
   }
 
 
@@ -4758,6 +4764,19 @@ public class CentralIndex
     p.Add("twitterUrl",twitterUrl);
     p.Add("facebookUrl",facebookUrl);
     return doCurl("POST","/multipack",p);
+  }
+
+
+  /**
+   * Get a multipack
+   *
+   *  @param multipack_id - the unique id to search for
+   *  @return - the data from the api
+  */
+  public String getMultipack( String multipack_id) {
+    Hashtable p = new Hashtable();
+    p.Add("multipack_id",multipack_id);
+    return doCurl("GET","/multipack",p);
   }
 
 
@@ -4869,19 +4888,6 @@ public class CentralIndex
 
 
   /**
-   * Fetch an ops_log
-   *
-   *  @param ops_log_id
-   *  @return - the data from the api
-  */
-  public String getOps_log( String ops_log_id) {
-    Hashtable p = new Hashtable();
-    p.Add("ops_log_id",ops_log_id);
-    return doCurl("GET","/ops_log",p);
-  }
-
-
-  /**
    * Create an ops_log
    *
    *  @param success
@@ -4903,6 +4909,19 @@ public class CentralIndex
 
 
   /**
+   * Fetch an ops_log
+   *
+   *  @param ops_log_id
+   *  @return - the data from the api
+  */
+  public String getOps_log( String ops_log_id) {
+    Hashtable p = new Hashtable();
+    p.Add("ops_log_id",ops_log_id);
+    return doCurl("GET","/ops_log",p);
+  }
+
+
+  /**
    * Run PTB for a given ingest job ID.
    *
    *  @param ingest_job_id - The ingest job ID
@@ -4912,6 +4931,83 @@ public class CentralIndex
     Hashtable p = new Hashtable();
     p.Add("ingest_job_id",ingest_job_id);
     return doCurl("POST","/paint/by_ingest_job_id",p);
+  }
+
+
+  /**
+   * With a known entity id syndication of data back to a partner is enabled
+   *
+   *  @param entity_id
+   *  @param publisher_id
+   *  @param expiry_date
+   *  @return - the data from the api
+  */
+  public String postPartnersyndicateActivate( String entity_id, String publisher_id, String expiry_date) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("publisher_id",publisher_id);
+    p.Add("expiry_date",expiry_date);
+    return doCurl("POST","/partnersyndicate/activate",p);
+  }
+
+
+  /**
+   * With a known entity id syndication of data back to a partner is enabled
+   *
+   *  @param entity_id
+   *  @param publisher_id
+   *  @param expiry_date
+   *  @return - the data from the api
+  */
+  public String postPartnersyndicateActivate( String entity_id, String publisher_id, String expiry_date) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    p.Add("publisher_id",publisher_id);
+    p.Add("expiry_date",expiry_date);
+    return doCurl("POST","/partnersyndicate/activate",p);
+  }
+
+
+  /**
+   * This will call into CK in order to create the entity on the third party system.
+   *
+   *  @param entity_id
+   *  @return - the data from the api
+  */
+  public String postPartnersyndicateCreate( String entity_id) {
+    Hashtable p = new Hashtable();
+    p.Add("entity_id",entity_id);
+    return doCurl("POST","/partnersyndicate/create",p);
+  }
+
+
+  /**
+   * If this call fails CK is nudged for a human intervention for the future (so the call is NOT passive)
+   *
+   *  @param vendor_cat_id
+   *  @param vendor_cat_string
+   *  @param vendor
+   *  @return - the data from the api
+  */
+  public String getPartnersyndicateRequestcat( String vendor_cat_id, String vendor_cat_string, String vendor) {
+    Hashtable p = new Hashtable();
+    p.Add("vendor_cat_id",vendor_cat_id);
+    p.Add("vendor_cat_string",vendor_cat_string);
+    p.Add("vendor",vendor);
+    return doCurl("GET","/partnersyndicate/requestcat",p);
+  }
+
+
+  /**
+   * Get plugin data
+   *
+   *  @param id
+   *  @return - the data from the api
+  */
+  public String getPlugin( String id) {
+    Hashtable p = new Hashtable();
+    p.Add("id",id);
+    return doCurl("GET","/plugin",p);
   }
 
 
@@ -4933,19 +5029,6 @@ public class CentralIndex
     p.Add("scope",scope);
     p.Add("status",status);
     return doCurl("POST","/plugin",p);
-  }
-
-
-  /**
-   * Get plugin data
-   *
-   *  @param id
-   *  @return - the data from the api
-  */
-  public String getPlugin( String id) {
-    Hashtable p = new Hashtable();
-    p.Add("id",id);
-    return doCurl("GET","/plugin",p);
   }
 
 
@@ -5053,19 +5136,6 @@ public class CentralIndex
 
 
   /**
-   * Returns the product information given a valid product_id
-   *
-   *  @param product_id
-   *  @return - the data from the api
-  */
-  public String getProduct( String product_id) {
-    Hashtable p = new Hashtable();
-    p.Add("product_id",product_id);
-    return doCurl("GET","/product",p);
-  }
-
-
-  /**
    * Update/Add a product
    *
    *  @param product_id - The ID of the product
@@ -5101,6 +5171,19 @@ public class CentralIndex
     p.Add("outro_paragraph",outro_paragraph);
     p.Add("thanks_paragraph",thanks_paragraph);
     return doCurl("POST","/product",p);
+  }
+
+
+  /**
+   * Returns the product information given a valid product_id
+   *
+   *  @param product_id
+   *  @return - the data from the api
+  */
+  public String getProduct( String product_id) {
+    Hashtable p = new Hashtable();
+    p.Add("product_id",product_id);
+    return doCurl("GET","/product",p);
   }
 
 
@@ -5148,6 +5231,21 @@ public class CentralIndex
     Hashtable p = new Hashtable();
     p.Add("product_id",product_id);
     return doCurl("POST","/product/provisioning/claim",p);
+  }
+
+
+  /**
+   * Adds partnersyndicate provisioning object to a product
+   *
+   *  @param product_id
+   *  @param publisher_id
+   *  @return - the data from the api
+  */
+  public String postProductProvisioningPartnersyndicate( String product_id, String publisher_id) {
+    Hashtable p = new Hashtable();
+    p.Add("product_id",product_id);
+    p.Add("publisher_id",publisher_id);
+    return doCurl("POST","/product/provisioning/partnersyndicate",p);
   }
 
 
@@ -5284,6 +5382,19 @@ public class CentralIndex
 
 
   /**
+   * Delete a publisher with a specified publisher_id
+   *
+   *  @param publisher_id
+   *  @return - the data from the api
+  */
+  public String deletePublisher( String publisher_id) {
+    Hashtable p = new Hashtable();
+    p.Add("publisher_id",publisher_id);
+    return doCurl("DELETE","/publisher",p);
+  }
+
+
+  /**
    * Update/Add a publisher
    *
    *  @param publisher_id
@@ -5307,19 +5418,6 @@ public class CentralIndex
     p.Add("premium_adverts_platinum",premium_adverts_platinum);
     p.Add("premium_adverts_gold",premium_adverts_gold);
     return doCurl("POST","/publisher",p);
-  }
-
-
-  /**
-   * Delete a publisher with a specified publisher_id
-   *
-   *  @param publisher_id
-   *  @return - the data from the api
-  */
-  public String deletePublisher( String publisher_id) {
-    Hashtable p = new Hashtable();
-    p.Add("publisher_id",publisher_id);
-    return doCurl("DELETE","/publisher",p);
   }
 
 
@@ -5376,19 +5474,6 @@ public class CentralIndex
 
 
   /**
-   * With a known queue id, a queue item can be removed.
-   *
-   *  @param queue_id
-   *  @return - the data from the api
-  */
-  public String deleteQueue( String queue_id) {
-    Hashtable p = new Hashtable();
-    p.Add("queue_id",queue_id);
-    return doCurl("DELETE","/queue",p);
-  }
-
-
-  /**
    * Retrieve queue items.
    *
    *  @param limit
@@ -5400,6 +5485,19 @@ public class CentralIndex
     p.Add("limit",limit);
     p.Add("queue_name",queue_name);
     return doCurl("GET","/queue",p);
+  }
+
+
+  /**
+   * With a known queue id, a queue item can be removed.
+   *
+   *  @param queue_id
+   *  @return - the data from the api
+  */
+  public String deleteQueue( String queue_id) {
+    Hashtable p = new Hashtable();
+    p.Add("queue_id",queue_id);
+    return doCurl("DELETE","/queue",p);
   }
 
 
@@ -5492,19 +5590,6 @@ public class CentralIndex
 
 
   /**
-   * Returns reseller that matches a given reseller id
-   *
-   *  @param reseller_id
-   *  @return - the data from the api
-  */
-  public String getReseller( String reseller_id) {
-    Hashtable p = new Hashtable();
-    p.Add("reseller_id",reseller_id);
-    return doCurl("GET","/reseller",p);
-  }
-
-
-  /**
    * Update/Add a reseller
    *
    *  @param reseller_id
@@ -5526,6 +5611,19 @@ public class CentralIndex
     p.Add("products",products);
     p.Add("master_user_id",master_user_id);
     return doCurl("POST","/reseller",p);
+  }
+
+
+  /**
+   * Returns reseller that matches a given reseller id
+   *
+   *  @param reseller_id
+   *  @return - the data from the api
+  */
+  public String getReseller( String reseller_id) {
+    Hashtable p = new Hashtable();
+    p.Add("reseller_id",reseller_id);
+    return doCurl("GET","/reseller",p);
   }
 
 
@@ -5994,14 +6092,16 @@ public class CentralIndex
    *
    *  @param language - The language to use to render the add path e.g. en
    *  @param portal_name - The name of the website that data is to be added on e.g. YourLocal
+   *  @param partner - syndication partner (eg 192)
    *  @param country - The country of the entity to be added e.g. gb
    *  @param flatpack_id - The id of the flatpack site where the request originated
    *  @return - the data from the api
   */
-  public String getTokenAdd( String language, String portal_name, String country, String flatpack_id) {
+  public String getTokenAdd( String language, String portal_name, String partner, String country, String flatpack_id) {
     Hashtable p = new Hashtable();
     p.Add("language",language);
     p.Add("portal_name",portal_name);
+    p.Add("partner",partner);
     p.Add("country",country);
     p.Add("flatpack_id",flatpack_id);
     return doCurl("GET","/token/add",p);
@@ -7056,6 +7156,32 @@ public class CentralIndex
 
 
   /**
+   * Deleting a traction
+   *
+   *  @param traction_id
+   *  @return - the data from the api
+  */
+  public String deleteTraction( String traction_id) {
+    Hashtable p = new Hashtable();
+    p.Add("traction_id",traction_id);
+    return doCurl("DELETE","/traction",p);
+  }
+
+
+  /**
+   * Fetching a traction
+   *
+   *  @param traction_id
+   *  @return - the data from the api
+  */
+  public String getTraction( String traction_id) {
+    Hashtable p = new Hashtable();
+    p.Add("traction_id",traction_id);
+    return doCurl("GET","/traction",p);
+  }
+
+
+  /**
    * Update/Add a traction
    *
    *  @param traction_id
@@ -7091,32 +7217,6 @@ public class CentralIndex
     p.Add("publisher_masheryid",publisher_masheryid);
     p.Add("description",description);
     return doCurl("POST","/traction",p);
-  }
-
-
-  /**
-   * Fetching a traction
-   *
-   *  @param traction_id
-   *  @return - the data from the api
-  */
-  public String getTraction( String traction_id) {
-    Hashtable p = new Hashtable();
-    p.Add("traction_id",traction_id);
-    return doCurl("GET","/traction",p);
-  }
-
-
-  /**
-   * Deleting a traction
-   *
-   *  @param traction_id
-   *  @return - the data from the api
-  */
-  public String deleteTraction( String traction_id) {
-    Hashtable p = new Hashtable();
-    p.Add("traction_id",traction_id);
-    return doCurl("DELETE","/traction",p);
   }
 
 
